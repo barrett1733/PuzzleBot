@@ -2,6 +2,7 @@
 #include "Display/DisplayGrid.h"
 #include "pathfinding/pathfinding.h"
 #include "utility\timer.h"
+#include <iomanip>
 
 ObstructionMap testGrid()
 {
@@ -36,17 +37,16 @@ int main()
 	DisplayGrid grid(&obs);
 
 	gridDisplay = window.getDefaultView();
-	controlDisplay.setViewport(sf::FloatRect(0.5f, 0, 0.5f, 0.5f));
-	std::cout << controlDisplay.getCenter().x << " " << controlDisplay.getCenter().y << std::endl;
-
+	
+	int windowX = window.getSize().x;
+	int windowY = window.getSize().y;
 	const int controlPanelWidth = 200;
+	sf::FloatRect controlPanelRect(windowX - controlPanelWidth, 0, controlPanelWidth, windowY);
+	float controlPanelSize = (float) controlPanelWidth / windowX;
 
-	float controlPanelSize = controlPanelWidth / gridDisplay.getSize().x;
-	float controlPanelCenter = gridDisplay.getSize().x - (gridDisplay.getSize().x - controlPanelWidth);
-	std::cout << controlPanelSize << std::endl;
 	controlDisplay.setViewport(sf::FloatRect(1 - controlPanelSize, 0, controlPanelSize, 1));
-	controlDisplay.setSize(controlPanelWidth, gridDisplay.getSize().y);
-	controlDisplay.setCenter(controlPanelWidth / 2, gridDisplay.getSize().y / 2);
+	controlDisplay.setSize(controlPanelWidth, windowY);
+	controlDisplay.setCenter(windowX - (controlPanelWidth / 2), windowY / 2);
 
 	grid.setPosition(sf::Vector2f(0, 0));
 	grid.setSize(sf::Vector2f(600, 600));
@@ -61,7 +61,7 @@ int main()
 
 	sf::RectangleShape button;
 	button.setFillColor(sf::Color::Red);
-	button.setPosition(10, 10);
+	button.setPosition(controlPanelRect.left + 10, controlPanelRect.top + 10);
 	button.setOutlineColor(sf::Color::Black);
 	button.setSize(sf::Vector2f(100, 100));
 
@@ -93,6 +93,24 @@ int main()
 		{
 			if (event.type == sf::Event::Closed)
 				window.close();
+			if (event.type == sf::Event::MouseButtonPressed)
+			{
+				sf::Vector2i mousePos = sf::Mouse::getPosition(window);
+				if (button.getGlobalBounds().contains(mousePos.x, mousePos.y))
+				{
+					button.setFillColor(sf::Color::Green);
+					std::cout << "pressed" << std::endl;
+				}
+			}
+			if (event.type == sf::Event::MouseButtonReleased)
+			{
+				sf::Vector2i mousePos = sf::Mouse::getPosition(window);
+				if (button.getGlobalBounds().contains(mousePos.x, mousePos.y))
+				{
+					button.setFillColor(sf::Color::Red);
+					std::cout << "released" << std::endl;
+				}
+			}
 		}
 
 		steady_clock::duration MS_PER_UPDATE = milliseconds(5);
