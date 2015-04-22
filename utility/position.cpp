@@ -1,15 +1,15 @@
 #include "position.h"
 #include <iostream>
 
-int Position::max_x = 0;
-int Position::max_y = 0;
+float Position::max_x = 0;
+float Position::max_y = 0;
 
 Position::Position() :
 	x(0),
 	y(0)
 { }
 
-Position::Position(int x, int y) :
+Position::Position(float x, float y) :
 	x(x),
 	y(y)
 {
@@ -23,7 +23,7 @@ Position::Position(const Position & position) :
 	//forceSanity();
 }
 
-bool Position::checkSanity(int x, int y)
+bool Position::checkSanity(float x, float y)
 {
 	if (x < 0) return false;
 	if (y < 0) return false;
@@ -55,7 +55,7 @@ Position& Position::operator= (const Position & position)
 	return *this;
 }
 
-bool Position::set(int x, int y)
+bool Position::set(float x, float y)
 {
 	if (checkSanity(x, y))
 	{
@@ -72,31 +72,31 @@ bool Position::set(Position pos)
 	return set(pos.x, pos.y);
 }
 
-bool Position::setX(int x)
+bool Position::setX(float x)
 {
 	return set(x, y);
 }
 
-bool Position::setY(int y)
+bool Position::setY(float y)
 {
 	return set(x, y);
 }
 
 
-int Position::getX()
+float Position::getX()
 {
 	return x;
 }
 
-int Position::getY()
+float Position::getY()
 {
 	return y;
 }
 
 double Position::distance(const Position & position)
 {
-	int a = x - position.x;
-	int b = y - position.y;
+	float a = x - position.x;
+	float b = y - position.y;
 	return sqrt(a * a + b * b);
 }
 
@@ -105,7 +105,7 @@ void Position::moveUnchecked(Direction direction)
 	moveUnchecked(direction, 1);
 }
 
-void Position::moveUnchecked(Direction direction, int distance)
+void Position::moveUnchecked(Direction direction, float distance)
 {
 	if (direction < D_NORTH || direction > D_COUNT)
 	{
@@ -135,7 +135,7 @@ void Position::move(Direction direction)
 	return move(direction, 1);
 }
 
-void Position::move(Direction direction, int distance)
+void Position::move(Direction direction, float distance)
 {
 	moveUnchecked(direction, distance);
 	forceSanity();
