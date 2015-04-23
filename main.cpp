@@ -1,7 +1,8 @@
 #include <SFML/Graphics.hpp>
 #include "Display/DisplayGrid.h"
 #include "pathfinding/pathfinding.h"
-#include "utility\timer.h"
+#include "utility/timer.h"
+#include "utility/entity.h"
 #include <iomanip>
 
 ObstructionMap testGrid()
@@ -28,6 +29,12 @@ ObstructionMap testGrid()
 	return testmap;
 }
 
+Position convPos(Position pos, DisplayGrid &grid, ObstructionMap &obs)
+{
+	return Position(pos.getX() * (grid.getSize().x / obs.getWidth()) + grid.getPosition().x,
+		pos.getY() * (grid.getSize().y / obs.getHeight()) + grid.getPosition().y);
+}
+
 int main()
 {
 
@@ -41,12 +48,12 @@ int main()
 	int windowX = window.getSize().x;
 	int windowY = window.getSize().y;
 	const int controlPanelWidth = 200;
+
 	sf::FloatRect controlPanelRect(windowX - controlPanelWidth, 0, controlPanelWidth, windowY);
 	float controlPanelSize = (float) controlPanelWidth / windowX;
 
 	controlDisplay.setViewport(sf::FloatRect(1 - controlPanelSize, 0, controlPanelSize, 1));
-	controlDisplay.setSize(controlPanelWidth, windowY);
-	controlDisplay.setCenter(windowX - (controlPanelWidth / 2), windowY / 2);
+	controlDisplay.reset(controlPanelRect);
 
 	grid.setPosition(sf::Vector2f(0, 0));
 	grid.setSize(sf::Vector2f(600, 600));
@@ -65,18 +72,35 @@ int main()
 	button.setOutlineColor(sf::Color::Black);
 	button.setSize(sf::Vector2f(100, 100));
 
-	sf::CircleShape robot;
-	Position robotPos(start.getX() * (grid.getSize().x / obs.getWidth()) + grid.getPosition().x,
-		start.getY() * (grid.getSize().y / obs.getHeight()) + grid.getPosition().y);
-	Position stop(500, 500);
+	sf::Font font;
+	if (!font.loadFromFile("res/arial.ttf"))
+	{
+		std::cerr << "Font file not found..." << std::endl;
+	}
 
-	robot.setFillColor(sf::Color::Green);
-	robot.setPosition(robotPos.getX(), robotPos.getY());
-	//robot.setPosition(10, 10);
-	robot.setRadius(20);
+	sf::Text robotCurPos, robotNextPos;
+	robotCurPos.setPosition(sf::Vector2f(controlPanelRect.left + 10, controlPanelRect.top + 130));
+	robotNextPos.setPosition(sf::Vector2f(controlPanelRect.left + 10, controlPanelRect.top + 150));
+	robotCurPos.setColor(sf::Color::White);
+	robotNextPos.setColor(sf::Color::White);
+	robotCurPos.setFont(font);
+	robotNextPos.setFont(font);
+	robotCurPos.setCharacterSize(12);
+	robotNextPos.setCharacterSize(12);
 
-	int xcounter = stop.getX() - robotPos.getX();
-	int ycounter = stop.getY() - robotPos.getY();
+	Entity robot(convPos(start, grid, obs));
+	Position nextPos(convPos(path[0], grid, obs));
+
+	sf::CircleShape robotGraphics;
+	robotGraphics.setFillColor(sf::Color::Green);
+	robotGraphics.setPosition(robot.position.x, robot.position.y);
+	robotGraphics.setRadius(grid.getSize().y / obs.getHeight() / 2);
+
+	int movecounter = 1;
+	for (int i = 0; i < path.size(); i++)
+	{
+		std::cout << path[i] << " -> " << convPos(path[i], grid, obs) << std::endl;
+	}
 
 	steady_clock::time_point prev = steady_clock::now();
 	steady_clock::duration lag = steady_clock::duration::zero();
@@ -116,28 +140,33 @@ int main()
 		steady_clock::duration MS_PER_UPDATE = milliseconds(5);
 		while (lag >= MS_PER_UPDATE)
 		{
-			if (xcounter > 0)
+			if (EuclideanDistance(robot.position, nextPos) <= robot.speed && movecounter + 1 < path.size())
 			{
-				robot.setPosition(robot.getPosition().x + 0.1, robot.getPosition().y);
-				xcounter -= 0.1;
+				std::cout << movecounter << std::endl;
+				movecounter++;
+				nextPos = convPos(path[movecounter], grid, obs);
 			}
-			if (ycounter > 0)
-			{
-				robot.setPosition(robot.getPosition().x, robot.getPosition().y + 0.1);
-				ycounter -= 0.1;
-			}
-
 			//update();
 			lag -= MS_PER_UPDATE;
 		}
 
+		if (movecounter < path.size())
+		{
+			robot.moveTowards(nextPos);
+			robotGraphics.setPosition(robot.position.x, robot.position.y);
+		}
+
+		robotCurPos.setString(sf::String("(" + std::to_string(robot.position.x) + ", " + std::to_string(robot.position.y) + ")"));
+		robotNextPos.setString(sf::String("(" + std::to_string(nextPos.x) + ", " + std::to_string(nextPos.y) + ")"));
 		
 		window.clear();
 		window.setView(gridDisplay);
 		window.draw(grid);
-		window.draw(robot);
+		window.draw(robotGraphics);
 		window.setView(controlDisplay);
 		window.draw(button);
+		window.draw(robotCurPos);
+		window.draw(robotNextPos);
 		window.display();
 	}
 
