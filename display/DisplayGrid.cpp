@@ -32,13 +32,12 @@ void DisplayGrid::draw(sf::RenderTarget &target, sf::RenderStates states) const
 			tileX = pos.x + tileSize.x * x;
 			tileY = pos.y + tileSize.y * y;
 			tile.setPosition(tileX, tileY);
-			tile.setFillColor(getTileColor(obsMap->at(x,y)));
+			tile.setFillColor(getTileColor(obsMap->at(x, y)));
 			tile.setOutlineColor(getOutlineColor());
 			tile.setOutlineThickness(getOutlineThickness());
 			target.draw(tile);
 		}
 	}
-
 }
 
 sf::Color DisplayGrid::getTileColor(ObstructionType obsType) const
@@ -65,4 +64,9 @@ void DisplayGrid::loadColors()
 		GridColors["Emp"] = sf::Color::White;
 		GridColors["Con"] = sf::Color::Yellow;
 	}
+}
+
+void DisplayGrid::setGrid(ObstructionMap* grid)
+{
+	obsMap = grid;
 }

@@ -82,8 +82,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="behavior\BehaviorTree.cpp" />
+    <ClCompile Include="display\DisplayControlPanel.cpp" />
+    <ClCompile Include="manager\EntityManager.cpp" />
+    <ClCompile Include="manager\GameManager.cpp" />
+    <ClCompile Include="manager\ScreenManager.cpp" />
     <ClCompile Include="display\DisplayGrid.cpp" />
     <ClCompile Include="graphics\GraphicsGrid.cpp" />
+    <ClCompile Include="manager\LevelManager.cpp" />
     <ClCompile Include="load\LoadFile.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="utility\entity.cpp" />
@@ -96,14 +102,20 @@
     <ClCompile Include="utility\timer.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="behavior\BehaviorTree.h" />
     <ClInclude Include="behavior\BehaviorCompositeNode.h" />
     <ClInclude Include="behavior\BehaviorDecoratorNode.h" />
     <ClInclude Include="behavior\BehaviorLeafNode.h" />
     <ClInclude Include="behavior\BehaviorNode.h" />
     <ClInclude Include="behavior\Node.h" />
     <ClInclude Include="config\Config.h" />
+    <ClInclude Include="display\DisplayControlPanel.h" />
+    <ClInclude Include="manager\EntityManager.h" />
+    <ClInclude Include="manager\GameManager.h" />
+    <ClInclude Include="manager\ScreenManager.h" />
     <ClInclude Include="display\DisplayGrid.h" />
     <ClInclude Include="graphics\GraphicsGrid.h" />
+    <ClInclude Include="manager\LevelManager.h" />
     <ClInclude Include="load\LoadFile.h" />
     <ClInclude Include="utility\entity.h" />
     <ClInclude Include="pathfinding\obstruction-map.h" />

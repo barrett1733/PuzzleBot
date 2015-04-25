@@ -19,6 +19,6 @@ public:
 	DisplayGrid(ObstructionMap* obsMap);
 	~DisplayGrid();
 
-	//void setGrid(ObstructionMap* obsMap);
+	void setGrid(ObstructionMap* obsMap);
 };
 
