@@ -1,24 +1,19 @@
 #pragma once
-
-#include <string>
-#include <vector>
 #include "position.h"
 
 class Entity 
 {
-protected:
-	Position position;
-
 public:
+	Position position;
+	float speed = 0.5;
+
 	Entity(Position);
 	Entity(const Entity&);
 	Entity();
 
 	Entity& operator= (const Entity&);
 
-	Position getPosition() const;
-
-	void setPosition(Position);
+	void moveTowards(Position);
 
 	friend std::ostream& operator<< (std::ostream & os, const Entity & entity)
 	{

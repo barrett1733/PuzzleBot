@@ -1,8 +1,5 @@
-//  Entity Class Implementation
-//  Mobile Entity Class Implementation
-//
-
 #include "entity.h"
+#include "distance.h"
 
 Entity::Entity(Position position) :
 	position(position)
@@ -22,12 +19,18 @@ Entity& Entity::operator= (const Entity& entity)
 	return *this;
 }
 
-Position Entity::getPosition() const
+void Entity::moveTowards(Position newPos)
 {
-	return this->position;
-}
+	double dist = EuclideanDistance(position, newPos);
 
-void Entity::setPosition(Position position)
-{
-	this->position = position;
+	float dx = newPos.x - position.x;
+	float dy = newPos.y - position.y;
+
+	dx /= dist;
+	dy /= dist;
+
+	dx *= speed;
+	dy *= speed;
+
+	position = Position(position.x + dx, position.y + dy);
 }
