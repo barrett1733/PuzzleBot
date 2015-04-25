@@ -1,0 +1,16 @@
+!Behavior Tree Loading Test
+
+name = root
+type = component
+action = wait
+parent = null
+
+name = test1
+type = leaf
+action = moveup
+parent = root
+
+name = test2
+type = leaf
+action = movedown
+parent = root
