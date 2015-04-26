@@ -1,86 +1,96 @@
 #include "LoadFile.h"
-#include <lib\libconfig.h++>
 #include <iostream>
 #include <iomanip>
-#include <cstdlib>
+#include <fstream>
+#include <algorithm>
 
-LoadFile::LoadFile()
+bool LoadFile::checkDelims(std::string str)
 {
+	int delim = 0;
+	for (int i = 0; i < str.size(); i++)
+	{
+		if (str[i] == delimiter)
+			delim++;
+	}
+
+	if (DEBUG)
+	{
+		if (str.empty())
+			std::cout << "NEWLINE - " << str << std::endl;
+		else if (str[0] == comment)
+			std::cout << "COMMENT - " << str << std::endl;
+		else if (delim == 1)
+			std::cout << "NORMAL  - " << str << std::endl;
+		else
+			std::cout << "ERROR   - " << str << std::endl;
+	}
+
+	if (!str.empty() && str[0] != comment && delim == 1)
+		return true;
+	else
+		return false;
 }
 
-
-LoadFile::~LoadFile()
+void LoadFile::addFileToQueue(std::string filename)
 {
+	if (!loadedFiles.count(filename))
+	{
+		loadedFiles.insert(filename);
+		fileQueue.push(filename);
+	}
 }
 
 void LoadFile::loadFile(std::string filename)
 {
-	libconfig::Config cfg;
-	cfg.readFile(filename.c_str());
+	addFileToQueue(filename);
+	while (!fileQueue.empty())
+	{
+		file.open(fileQueue.front());
+
+		std::string line;
+
+		if (file.fail())
+		{
+			std::cerr << "File not found: " << fileQueue.front() << std::endl;
+		}
+		else
+		{
+			while (!file.eof())
+			{
+				getline(file, line);
+				parse(line);
+			}
+		}
+		fileQueue.pop();
+		file.close();
+	}
+	postLoad();
 }
+
 void LoadFile::parse(std::string line)
 {
-	/*
-	std::stringstream ss(line);
-	std::string object;
-	std::string valueString;
-	int         valueInt[3] = { 0 };
-	double      valueDouble = 0.0;
-	float		valueFloat = 0.0;
-
-	bool accepted;
-	object = "";
-
-	valueInt[0] = 0;
-	valueInt[1] = 0;
-	valueInt[2] = 0;
-	valueDouble = 0.0;
-	valueString = "";
-
-	ss >> object;
-	if (object == "FILE")
+	std::string name, type;
+	line.erase(std::remove_if(line.begin(), line.end(), isspace), line.end());
+	if (checkDelims(line))
 	{
-		ss >> valueString;
-		if (!loadedFiles.count(valueString))
-			loadFile(valueString);
+		int lineDelim = line.find(delimiter);
+
+		name = line.substr(0, lineDelim);
+		type = line.substr(lineDelim + 1, line.size());
+
+		if (DEBUG)
+			std::cout << name << "\t" << type << std::endl;
+	}
+
+	if (name == "file")
+	{
+		addFileToQueue(type);
+	}
+	else if (name == "print")
+	{
+		std::cout << type << std::endl;
 	}
 	else
-	{
-		ss >> valueString;
-		if (object == "STRING")
-		{
-			ss >> valueString;
-		}
-		else if (object == "FLOAT")
-		{
-			ss >> valueFloat;
-		}
-		else if (object == "INT")
-		{
-			ss >> valueInt[0];
-		}
-		else if (object == "INT_PAIR")
-		{
-			ss >> valueInt[0];
-			ss >> valueInt[1];
-		}
-		else if (object == "INT_TRIPLE")
-		{
-			ss >> valueInt[0];
-			ss >> valueInt[1];
-			ss >> valueInt[2];
-		}
-		else if (object == "COLOR")
-		{
-			ss >> valueInt[0];
-			ss >> valueInt[1];
-			ss >> valueInt[2];
-		}
-	}
-	*/
+		store(name, type);
 }
 
-void LoadFile::store(std::string object, std::string data)
-{
-
-}

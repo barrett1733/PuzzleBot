@@ -1,17 +1,30 @@
 #pragma once
 #include <string>
-#include <iostream>
+#include <fstream>
 #include <set>
-#include "../config/Config.h"
+#include <queue>
 
 class LoadFile
 {
-	std::set<std::string> loadedFiles;
+	const bool DEBUG = false;
+	const char delimiter = '=';
+	const char comment = '#';
+
+	int groupCounter = 0;
+	std::vector<std::pair<std::string, std::string>> groupStrings;
+
+	std::ifstream file;
+	typedef std::set<std::string> FileSet;
+	typedef std::queue<std::string> FileQueue;
+
+	FileSet loadedFiles;
+	FileQueue fileQueue;
 	void parse(std::string line);
-	void store(std::string object, std::string data);
+	bool checkDelims(std::string);
+	void addFileToQueue(std::string);
 public:
-	LoadFile();
-	~LoadFile();
 	void loadFile(std::string filename);
+	virtual void postLoad() = 0;
+	virtual void store(std::string object, std::string data) = 0;
 };
 
