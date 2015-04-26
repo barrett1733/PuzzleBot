@@ -1,93 +1,85 @@
 #include "BehaviorTree.h"
-#include <lib\libconfig.h++>
-#include <fstream>
-#include <iostream>
-#include <algorithm>
 
-using namespace libconfig;
-
-#define DEBUG false
-
+using namespace Behavior;
 BehaviorTree::BehaviorTree()
 {
 }
 
-
 BehaviorTree::~BehaviorTree()
 {
+	for (int j = 0; j < tree.size(); j++)
+	{
+		delete tree[j];
+		tree[j] = NULL;
+	}
 }
 
-bool BehaviorTree::checkDelims(std::string str)
+void BehaviorTree::link()
 {
-	int delim = 0;
-	for (int i = 0; i < str.size(); i++)
+	root = tree[0];
+	for (int i = 0; i < tree.size(); i++)
 	{
-		if (str[i] == '=')
-			delim++;
+		for (int j = 0; j < tree.size(); j++)
+		{
+			if (tree[i]->name == tree[j]->parent)
+				tree[i]->addChild(tree[i]);
+		}
 	}
-
-	if (DEBUG)
-	{
-		if (str.empty())
-			std::cout << "NEWLINE - " << str << std::endl;
-		else if (str[0] == '!')
-			std::cout << "COMMENT - " << str << std::endl;
-		else if (delim == 1)
-			std::cout << "NORMAL  - " << str << std::endl;
-		else
-			std::cout << "ERROR   - " << str << std::endl;
-	}
-	if (!str.empty() && str[0] != '!' && delim == 1)
-		return true;
-	else
-		return false;
 }
 
-void BehaviorTree::loadFromFile(std::string file)
+void BehaviorTree::store(std::string name, std::string data)
 {
-	std::ifstream cfg;
-	cfg.open(file);
-
-	std::string line, name, type;
-	std::vector<std::string> dataContainer;
-	std::vector<std::vector<std::string>> data;
-	std::string delim = "=";
-
-	if (cfg.fail())
-		std::cerr << "Config file not found: " << file << std::endl;
-
-	else while (!cfg.eof())
+	if (name == "node")
 	{
-		getline(cfg, line);
-		line.erase(std::remove_if(line.begin(), line.end(), isspace), line.end());
-		
-		if (checkDelims(line))
+		if (data == "composite")
 		{
-			int lineDelim = line.find(delim);
-
-			name = line.substr(0, lineDelim);
-			type = line.substr(lineDelim + 1, line.size());
-
-			std::cout << name << "\t" << type << std::endl;
-			if (name == "name" || dataContainer.size() > 0)
-			{
-				dataContainer.push_back(type);
-			}
-			if (dataContainer.size() > 3)
-			{
-				data.push_back(dataContainer);
-				dataContainer.clear();
-			}
+			newNode = new CompositeNode();
+		}
+		else if (data == "decorator")
+		{
+			newNode = new DecoratorNode();
+		}
+		else if (data == "leaf")
+		{
+			newNode = new LeafNode();
+		}
+		if (newNode != NULL)
+			tree.push_back(newNode);
+	}
+	else if (newNode != NULL)
+	{
+		if (name == "name")
+		{
+			newNode->name = data;
+		}
+		else if (name == "action")
+		{
+			if (data == "moveup")
+				newNode->action = Action::MOVE_UP;
+			else if (data == "movedown")
+				newNode->action = Action::MOVE_DOWN;
+			else if (data == "moveleft")
+				newNode->action = Action::MOVE_LEFT;
+			else if (data == "moveright")
+				newNode->action = Action::MOVE_RIGHT;
+			else if (data == "movetoward")
+				newNode->action = Action::MOVE_TOWARD;
+			else if (data == "moveaway")
+				newNode->action = Action::MOVE_AWAY;
+			else if (data == "objectpush")
+				newNode->action = Action::OBJECT_PUSH;
+			else if (data == "objectpull")
+				newNode->action = Action::OBJECT_PULL;
+			else if (data == "objectpickup")
+				newNode->action = Action::OBJECT_PICKUP;
+			else if (data == "objectdrop")
+				newNode->action = Action::OBJECT_DROP;
+			else
+				newNode->action = Action::WAIT;
+		}
+		else if (name == "parent")
+		{
+			newNode->parent = data;
 		}
 	}
-	std::cout << std::endl << "DATA" << std::endl;
-	for (int i = 0; i < data.size(); i++)
-	{
-		std::cout << "Data " << i << std::endl;
-		for (int j = 0; j < data[i].size(); j++)
-		{
-			std::cout << "\t" << data[i][j] << std::endl;
-		}
-	}
-
 }

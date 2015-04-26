@@ -1,0 +1,3 @@
+print = success
+print = test access 2
+file = bad.txt

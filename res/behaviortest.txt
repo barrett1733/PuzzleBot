@@ -1,16 +1,17 @@
-!Behavior Tree Loading Test
+#Behavior Tree Loading Test
 
+node = composite
 name = root
-type = component
 action = wait
 parent = null
 
+node = leaf
 name = test1
-type = leaf
 action = moveup
 parent = root
 
+node = leaf
 name = test2
-type = leaf
 action = movedown
 parent = root
+

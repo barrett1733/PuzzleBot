@@ -14,5 +14,8 @@ namespace Behavior
 		Node* child;
 	public:
 		Node* getChild(){ return child; }
+		void addChild(Node* node) { child = node; }
+		bool process() { return 0; }
 	};
+	typedef DecoratorNode DNode;
 }

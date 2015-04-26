@@ -6,7 +6,9 @@ namespace Behavior
 	class LeafNode : public Node
 	{
 	public:
-		std::string action;
 		Node* getChild(){ return NULL; }
+		void addChild(Node* node) {}
+		bool process() { return 0; }
 	};
+	typedef LeafNode LNode;
 }

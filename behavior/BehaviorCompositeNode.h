@@ -21,8 +21,10 @@ namespace Behavior
 			UNTILTRUE,
 			UNTILFALSE,
 		};
-		std::vector<Node*> child;
+		std::vector<Node*> children;
 		Node* getChild() { return NULL; }
-		bool update() { return false; }
+		void addChild(Node* node) { children.push_back(node); }
+		bool process() { return 0; }
 	};
+	typedef CompositeNode CNode;
 }
