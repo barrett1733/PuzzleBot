@@ -82,6 +82,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="behavior\BehaviorNode.cpp" />
     <ClCompile Include="behavior\BehaviorTree.cpp" />
     <ClCompile Include="display\DisplayControlPanel.cpp" />
     <ClCompile Include="manager\EntityManager.cpp" />
@@ -103,9 +104,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="behavior\BehaviorTree.h" />
-    <ClInclude Include="behavior\BehaviorCompositeNode.h" />
-    <ClInclude Include="behavior\BehaviorDecoratorNode.h" />
-    <ClInclude Include="behavior\BehaviorLeafNode.h" />
     <ClInclude Include="behavior\BehaviorNode.h" />
     <ClInclude Include="behavior\Node.h" />
     <ClInclude Include="config\Config.h" />

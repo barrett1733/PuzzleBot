@@ -1,17 +1,33 @@
-#Behavior Tree Loading Test
+name = passThroughDoor
+child = walkToDoor
+child = ifDoorClosed
+child = walkThroughDoor
+child = closeDoor
 
-node = composite
-name = root
-action = wait
-parent = null
+name = ifDoorClosed
+child = openDoor
+child = ifDoorLocked
+child = smashDoor
 
-node = leaf
-name = test1
-action = moveup
-parent = root
+name = ifDoorLocked
+child = unlockDoor
+child = openDoor
 
-node = leaf
-name = test2
-action = movedown
-parent = root
+name = walkToDoor
+action = walk
+
+name = walkThroughDoor
+action = move toward
+
+name = openDoor
+action = object push
+
+name = closeDoor
+action = object push
+
+name = unlockDoor
+action = object pick up
+
+name = smashDoor
+action = object push
 

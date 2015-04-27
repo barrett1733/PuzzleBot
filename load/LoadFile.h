@@ -24,7 +24,7 @@ class LoadFile
 	void addFileToQueue(std::string);
 public:
 	void loadFile(std::string filename);
-	virtual void postLoad() = 0;
+	virtual void postLoad() {};
 	virtual void store(std::string object, std::string data) = 0;
 };
 
