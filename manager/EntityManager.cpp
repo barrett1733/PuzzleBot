@@ -1,12 +1,6 @@
 #include "EntityManager.h"
 
 
-EntityManager::EntityManager()
-{
-	entities.reserve(100);
-}
-
-
 Entity& EntityManager::getEntity(Position pos)
 {
 	for (int i = 0; i < entities.size(); i++)

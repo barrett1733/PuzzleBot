@@ -4,9 +4,9 @@
 class EntityManager
 {
 	std::vector<Entity> entities;
-	std::vector<Entity> robots;
+	//std::vector<Entity> robots;
 public:
-	EntityManager();
+	Entity robot;
 	Entity& getEntity(Position pos);
 	void addEntity(Entity entity);
 };

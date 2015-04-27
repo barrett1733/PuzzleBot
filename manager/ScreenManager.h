@@ -6,12 +6,15 @@
 class ScreenManager : public sf::RenderTexture
 {
 	sf::View gridDisplay, controlDisplay;
-	LevelManager levels;
-	DisplayGrid grid;
+	std::vector<sf::Drawable*> gridObjects, controlPanelObjects;
 public:
-	ScreenManager();
-	~ScreenManager();
+	DisplayGrid grid;
+	sf::CircleShape robot;
+	sf::RectangleShape button;
+	LevelManager* levelManager;
 	void init();
+	void eventUpdate(sf::Event& event);
 	void update();
+	void render();
 };
 

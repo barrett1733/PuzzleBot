@@ -10,7 +10,7 @@ ObstructionMap* LevelManager::getLevel(int num)
 {
 	if (num < levels.size())
 	{
-		return &levels[num];
+		return &levels.at(num);
 	}
 }
 
@@ -23,6 +23,8 @@ void LevelManager::testLevel()
 {
 	int mapSizeX = 10;
 	int mapSizeY = 10;
+
+	levels.push_back(ObstructionMap(10, 10));
 
 	Position::max_x = mapSizeX;
 	Position::max_y = mapSizeY;
