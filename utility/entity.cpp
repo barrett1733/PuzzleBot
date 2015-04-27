@@ -26,8 +26,8 @@ void Entity::moveTowards(Position newPos)
 	float dx = newPos.x - position.x;
 	float dy = newPos.y - position.y;
 
-	dx /= dist;
-	dy /= dist;
+	dist > 0 ? dx /= dist : dx;
+	dist > 0 ? dy /= dist : dy;
 
 	dx *= speed;
 	dy *= speed;
