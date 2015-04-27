@@ -1,10 +1,13 @@
 #pragma once
 #include <string>
+#include <iostream>
+#include <vector>
 
 namespace Behavior
 {
 	enum Action
 	{
+		NONE,
 		WAIT,
 		MOVE_UP,
 		MOVE_DOWN,
@@ -21,14 +24,16 @@ namespace Behavior
 	{
 		bool result = false;
 	public:
-		std::string name, parent;
-		Action action;
-		virtual Node* getChild() = 0;
-		virtual void addChild(Node*) = 0;
-		virtual bool process() = 0;
+		std::string name;
+		std::vector<Node*> childNodes;
+		Action action = NONE;
+
+		Node* searchChild(std::string name_);
+		void addChild(Node* node);
+		bool process();
 		friend std::ostream& operator<<(std::ostream& os, const Node& node)
 		{
-			os << "Name: " << node.name << " Action: " << node.action << " Parent: " << node.parent;
+			os << node.name << std::endl;
 			return os;
 		}
 	};

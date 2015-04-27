@@ -14,45 +14,68 @@ BehaviorTree::~BehaviorTree()
 	}
 }
 
-void BehaviorTree::link()
+void BehaviorTree::printNode(Node* node, int depth)
 {
-	root = tree[0];
+	for (int i = 0; i < depth; i++)
+	{
+		std::cout << "  ";
+	}
+	std::cout << *node;
+	depth++;
+	for (int i = 0; i < node->childNodes.size(); i++)
+		printNode(node->childNodes[i], depth);
+}
+
+void BehaviorTree::printTree()
+{
+	printNode(root, 0);
+}
+
+void BehaviorTree::postLoad()
+{
+	link();
+}
+
+Node* BehaviorTree::findNode(std::string name)
+{
 	for (int i = 0; i < tree.size(); i++)
 	{
+		if (name == tree[i]->name)
+			return tree[i];
+	}
+	return NULL;
+}
+
+void BehaviorTree::link()
+{
+	std::string parentName, childName;
+	Node *parent, *child;
+	root = tree[0];
+	for (int i = 0; i < parentChildMap.size(); i++)
+	{
+		parentName = parentChildMap[i].first;
+		childName = parentChildMap[i].second;
+		parent = findNode(parentName);
 		for (int j = 0; j < tree.size(); j++)
 		{
-			if (tree[i]->name == tree[j]->parent)
-				tree[i]->addChild(tree[i]);
+			child = tree[j];
+			if (child->name == childName)
+				parent->addChild(child);
 		}
 	}
 }
 
 void BehaviorTree::store(std::string name, std::string data)
 {
-	if (name == "node")
+	if (name == "name")
 	{
-		if (data == "composite")
-		{
-			newNode = new CompositeNode();
-		}
-		else if (data == "decorator")
-		{
-			newNode = new DecoratorNode();
-		}
-		else if (data == "leaf")
-		{
-			newNode = new LeafNode();
-		}
-		if (newNode != NULL)
-			tree.push_back(newNode);
+		newNode = new Node();
+		newNode->name = data;
+		tree.push_back(newNode);
 	}
 	else if (newNode != NULL)
 	{
-		if (name == "name")
-		{
-			newNode->name = data;
-		}
-		else if (name == "action")
+		if (name == "action")
 		{
 			if (data == "moveup")
 				newNode->action = Action::MOVE_UP;
@@ -77,9 +100,9 @@ void BehaviorTree::store(std::string name, std::string data)
 			else
 				newNode->action = Action::WAIT;
 		}
-		else if (name == "parent")
+		else if (name == "child")
 		{
-			newNode->parent = data;
+			parentChildMap.push_back(StringPair(newNode->name, data));
 		}
 	}
 }
