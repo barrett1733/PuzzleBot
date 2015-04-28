@@ -5,9 +5,9 @@ class Entity
 {
 public:
 	Position position;
-	float speed = 0.5;
+	float speed;
 
-	Entity(Position);
+	Entity(Position position, float speed);
 	Entity(const Entity&);
 	Entity();
 
@@ -17,7 +17,7 @@ public:
 
 	friend std::ostream& operator<< (std::ostream & os, const Entity & entity)
 	{
-		os << entity.position;
+		os << entity.position << " " << entity.speed;
 		return os;
 	}
 };

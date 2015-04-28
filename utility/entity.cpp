@@ -1,16 +1,19 @@
 #include "entity.h"
 #include "distance.h"
 
-Entity::Entity(Position position) :
-	position(position)
+Entity::Entity(Position position, float speed) :
+	position(position),
+	speed(speed)
 { }
 
 Entity::Entity(const Entity & entity) :
-	position(entity.position)
+	position(entity.position),
+	speed(entity.speed)
 { }
 
 Entity::Entity() :
-	position()
+	position(0,0),
+	speed(0.0)
 { }
 
 Entity& Entity::operator= (const Entity& entity)
