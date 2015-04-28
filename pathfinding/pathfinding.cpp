@@ -41,7 +41,7 @@ Path Pathfinding::findPath(Position start, Position goal, ObstructionMap* obstru
 		}
 		else
 		{
-			for (Direction dir = D_NORTH; dir < D_COUNT; dir++)
+			for (Direction dir = D_NORTH; dir < D_NORTH_EAST; dir++)
 			{
 				neighborPos = curNode->pos;
 				neighborPos.moveUnchecked(dir);
