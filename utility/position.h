@@ -50,6 +50,7 @@ public:
 	double distance(const Position&);
 
 	Position getNeighbor(Direction);
+	void round();
 
 	bool setX(float x);
 	bool setY(float y);

@@ -1,5 +1,6 @@
 #include "position.h"
 #include <iostream>
+#include <algorithm>
 
 float Position::max_x = 0;
 float Position::max_y = 0;
@@ -146,4 +147,10 @@ Position Position::getNeighbor(Direction dir)
 	Position pos = *this;
 	pos.moveUnchecked(dir);
 	return pos;
+}
+
+void Position::round()
+{
+	x = std::round(x);
+	y = std::round(y);
 }
