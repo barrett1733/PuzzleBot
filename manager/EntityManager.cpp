@@ -1,16 +1,33 @@
 #include "EntityManager.h"
 
 
-Entity& EntityManager::getEntity(Position pos)
+Entity& EntityManager::getEntity(std::string name)
 {
-	for (int i = 0; i < entities.size(); i++)
-	{
-		if (entities[i].position == pos)
-			return entities[i];
-	}
+	return entities[name];
 }
 
-void EntityManager::addEntity(Entity entity)
+void EntityManager::addEntity(std::string name, Entity entity)
 {
-	entities.push_back(entity);
+	entities[name] = entity;
+}
+
+void EntityManager::store(std::string name, std::string data)
+{
+	if (name == "name")
+	{
+		entities[data] = Entity();
+		entityName = data;
+	}
+	else if (name == "positionx")
+	{
+		entities[entityName].position.x = atof(data.c_str());
+	}
+	else if (name == "positiony")
+	{
+		entities[entityName].position.y = atof(data.c_str());
+	}
+	else if (name == "speed")
+	{
+		entities[entityName].speed = atof(data.c_str())/100;
+	}
 }

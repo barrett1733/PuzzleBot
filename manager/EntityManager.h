@@ -1,13 +1,18 @@
 #pragma once
-#include <vector>
+#include <map>
 #include "../utility/entity.h"
-class EntityManager
+#include "../load/LoadFile.h"
+
+class EntityManager : public LoadFile
 {
-	std::vector<Entity> entities;
-	//std::vector<Entity> robots;
+	typedef std::map<std::string, Entity> EntityMap;
+	typedef std::map<std::string, Entity>::iterator EntityMapIter;
+	std::string entityName;
+	EntityMap entities;
+
 public:
-	Entity robot;
-	Entity& getEntity(Position pos);
-	void addEntity(Entity entity);
+	Entity& getEntity(std::string name);
+	void addEntity(std::string name, Entity entity);
+	void store(std::string, std::string);
 };
 
