@@ -1,20 +1,35 @@
 #pragma once
 #include <SFML\Graphics.hpp>
 #include "LevelManager.h"
+#include "EntityManager.h"
 #include "../display/DisplayGrid.h"
+#include "../load/LoadFile.h"
 
-class ScreenManager : public sf::RenderTexture
+struct sfEntity
 {
+	sf::Shape* shape;
+	bool grid = true;
+};
+
+class ScreenManager : public sf::RenderTexture, public LoadFile
+{
+	typedef std::map<std::string, sf::Shape*> sfEntityMap;
+	typedef std::map<std::string, sf::Shape*>::iterator sfEntityMapIter;
+	sfEntityMap sfEntities;
+	std::string sfEntityName;
 	sf::View gridDisplay, controlDisplay;
-	std::vector<sf::Drawable*> gridObjects, controlPanelObjects;
+	Position convertPosition(Position);
 public:
-	DisplayGrid grid;
-	sf::CircleShape robot;
-	sf::RectangleShape button;
+	EntityManager* entityManager;
 	LevelManager* levelManager;
+	DisplayGrid grid;
+	sf::RectangleShape button;
 	void init();
 	void eventUpdate(sf::Event& event);
 	void update();
 	void render();
+	sf::Shape& getsfEntity(std::string name);
+	void addsfEntity(std::string name, sf::Shape* sfEntity);
+	void store(std::string, std::string);
 };
 
