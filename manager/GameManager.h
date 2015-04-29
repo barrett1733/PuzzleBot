@@ -8,16 +8,17 @@
 
 class GameManager
 {
-	EntityManager entityManager;
-	Position convPos(Position pos);
+	Position convGridPos(Position pos);
+	Position convScreenPos(Position pos);
 	Position start, nextPos;
 	Pathfinding* test;
 	Path path;
+	bool key = false;
 
 public:
 	~GameManager(){ delete test; test = NULL; }
-	ScreenManager* world;
-	LevelManager levelManager;
+	EntityManager* entityManager;
+	LevelManager* levelManager;
 	void init();
 	void update();
 	void eventUpdate(sf::Event&);
