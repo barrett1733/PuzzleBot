@@ -3,6 +3,7 @@
 #include <iomanip>
 #include "manager\ScreenManager.h"
 #include "manager\GameManager.h"
+#include "manager\LevelManager.h"
 #include "behavior\BehaviorTree.h"
 #include "config\Config.h"
 
@@ -15,15 +16,26 @@ int main()
 	testtree.printTree();
 	std::cin.get();
 	*/
-	ScreenManager world;
-	world.create(SCREEN_WIDTH, SCREEN_HEIGHT);
-	world.init();
+	EntityManager entities;
+	entities.loadFile("res/entities.txt");
+	LevelManager levels;
+	levels.loadLevels();
+	
+	// might use transformable and drawable or something like that
+	sf::Transformable t1, t2;
+	t1 = t2;
+
+	ScreenManager screen;
+	screen.levelManager = &levels;
+	screen.entityManager = &entities;
+	screen.create(SCREEN_WIDTH, SCREEN_HEIGHT);
+	screen.init();
+	screen.loadFile("res/sfentities.txt");
 
 	GameManager game;
+	game.levelManager = &levels;
+	game.entityManager = &entities;
 	game.init();
-	game.world = &world;
-
-	world.levelManager = &game.levelManager;
 
 	sf::RenderWindow window(sf::VideoMode(SCREEN_WIDTH, SCREEN_HEIGHT), "SFML works!");
 	
@@ -43,20 +55,22 @@ int main()
 			if (event.type == sf::Event::Closed)
 				window.close();
 			game.eventUpdate(event);
+			screen.eventUpdate(event);
 		}
 
 		steady_clock::duration MS_PER_UPDATE = milliseconds(5);
 		while (lag >= MS_PER_UPDATE)
 		{
 			game.update();
+			screen.update();
 			lag -= MS_PER_UPDATE;
 		}
 
 		
 		window.clear();
-		world.render();
-		world.display();
-		sf::Sprite sprite(world.getTexture());
+		screen.render();
+		screen.display();
+		sf::Sprite sprite(screen.getTexture());
 		window.draw(sprite);
 		window.display();
 	}
