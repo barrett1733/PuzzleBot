@@ -49,7 +49,7 @@ public:
 		indexGrid(x,y),
 		searchMax(numOfNodesToSearch)
 	{};
-	Path findPath(Position start, Position goal, ObstructionMap* obstructionMap);
-	Position findNextPosition(Position start, Position goal, ObstructionMap* obstructionMap);
+	Path findPath(Position start, Position goal, GridBool* obstructionMap);
+	Position findNextPosition(Position start, Position goal, GridBool* obstructionMap);
 };
 

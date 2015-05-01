@@ -1,4 +1,5 @@
 #include "pathfinding.h"
+#include "../config/Config.h"
 
 double Pathfinding::heursticCost(Position a, Position b)
 {
@@ -10,7 +11,7 @@ double Pathfinding::pathCost(Position a, Position b)
 	return EuclideanDistance(a, b);
 }
 
-Path Pathfinding::findPath(Position start, Position goal, ObstructionMap* obstructionMap)
+Path Pathfinding::findPath(Position start, Position goal, GridBool* obstructionMap)
 {
 	goalReached = false;
 	searchCounter = 0;
@@ -44,8 +45,8 @@ Path Pathfinding::findPath(Position start, Position goal, ObstructionMap* obstru
 			for (Direction dir = D_NORTH; dir < D_NORTH_EAST; dir++)
 			{
 				neighborPos = curNode->pos;
-				neighborPos.moveUnchecked(dir);
-				if (neighborPos.checkSanity() && obstructionMap->isOpen(neighborPos))
+				neighborPos.move(dir);
+				if (neighborPos.checkSanity(LEVELSIZE, LEVELSIZE) && obstructionMap->at(neighborPos) == false)
 				{
 					if (indexGrid.checkExists(neighborPos))
 					{
@@ -75,7 +76,7 @@ Path Pathfinding::constructPath(Node* goal)
 {
 	Node* node = goal;
 	Path path;
-	path.reserve(Position::max_x * Position::max_y);
+	path.reserve(LEVELSIZE * LEVELSIZE);
 
 	if (node->parentNode == NULL)
 	{
@@ -100,7 +101,7 @@ void Pathfinding::clear()
 	indexGrid.clear();
 }
 
-Position Pathfinding::findNextPosition(Position start, Position goal, ObstructionMap* obstructionMap)
+Position Pathfinding::findNextPosition(Position start, Position goal, GridBool* obstructionMap)
 {
 	return findPath(start, goal, obstructionMap)[0];
 }

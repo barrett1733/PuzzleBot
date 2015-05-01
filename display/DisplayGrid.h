@@ -7,18 +7,18 @@ class DisplayGrid : public sf::RectangleShape
 	typedef std::map<std::string, sf::Color> ColorIdMap;
 	static ColorIdMap GridColors; // pair of id and color - TODO change this
 
-	ObstructionMap* obsMap;
+	GridBool* obsMap;
 
-	sf::Color getTileColor(ObstructionType) const;
+	sf::Color getTileColor(bool) const;
 	void loadColors(); // Testing only
 
 	void draw(sf::RenderTarget &target, sf::RenderStates states) const;
 
 public:
 	DisplayGrid();
-	DisplayGrid(ObstructionMap* obsMap);
+	DisplayGrid(GridBool* obsMap);
 	~DisplayGrid();
 
-	void setGrid(ObstructionMap* obsMap);
+	void setGrid(GridBool* obsMap);
 };
 

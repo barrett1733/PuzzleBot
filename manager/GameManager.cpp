@@ -6,14 +6,14 @@
 
 Position GameManager::convGridPos(Position pos)
 {
-	ObstructionMap obs = *levelManager->getLevel(0);
-	return Position(pos.getX() * (gridDisplaySize / obs.getWidth()), pos.getY() * (gridDisplaySize / obs.getHeight()));
+	GridBool obs = *levelManager->getLevel(0);
+	return Position(pos.x * (gridDisplaySize / obs.getWidth()), pos.y * (gridDisplaySize / obs.getHeight()));
 }
 
 Position GameManager::convScreenPos(Position pos)
 {
-	ObstructionMap obs = *levelManager->getLevel(0);
-	return Position(std::round(pos.getX() / (gridDisplaySize / obs.getWidth())), std::round(pos.getY() / (gridDisplaySize / obs.getHeight())));
+	GridBool obs = *levelManager->getLevel(0);
+	return Position(std::round(pos.x / (gridDisplaySize / obs.getWidth())), std::round(pos.y / (gridDisplaySize / obs.getHeight())));
 }
 
 void GameManager::init()

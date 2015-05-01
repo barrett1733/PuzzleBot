@@ -7,7 +7,7 @@ DisplayGrid::DisplayGrid()
 	loadColors();
 }
 
-DisplayGrid::DisplayGrid(ObstructionMap* obsMap) : obsMap(obsMap)
+DisplayGrid::DisplayGrid(GridBool* obsMap) : obsMap(obsMap)
 {
 	loadColors();
 }
@@ -40,19 +40,15 @@ void DisplayGrid::draw(sf::RenderTarget &target, sf::RenderStates states) const
 	}
 }
 
-sf::Color DisplayGrid::getTileColor(ObstructionType obsType) const
+sf::Color DisplayGrid::getTileColor(bool obsType) const
 {
-	if (obsType == OT_EMPTY)
-	{
-		return GridColors["Emp"];
-	}
-	if (obsType == OT_CONSIDERED)
-	{
-		return GridColors["Con"];
-	}
-	if (obsType == OT_OBSTRUCTED)
+	if (obsType)
 	{
 		return GridColors["Obs"];
+	}
+	else
+	{
+		return GridColors["Emp"];
 	}
 }
 
@@ -62,11 +58,10 @@ void DisplayGrid::loadColors()
 	{
 		GridColors["Obs"] = sf::Color::Blue;
 		GridColors["Emp"] = sf::Color::White;
-		GridColors["Con"] = sf::Color::Yellow;
 	}
 }
 
-void DisplayGrid::setGrid(ObstructionMap* grid)
+void DisplayGrid::setGrid(GridBool* grid)
 {
 	obsMap = grid;
 }
