@@ -24,11 +24,6 @@ typedef int Direction;
 
 class Position
 {
-	//Creation and moving of a position forces sanity
-	//Setting checks sanity
-	void forceSanity();
-	bool checkSanity(float x, float y);
-
 public:
 	float x;
 	float y;
@@ -39,25 +34,13 @@ public:
 
 	Position& operator= (const Position &);
 
-	bool checkSanity();
-
-	void moveUnchecked(Direction); // move without forceSanity()
-	void moveUnchecked(Direction, float distance);
+	bool checkSanity(float max_x, float max_y);
 
 	void move(Direction);
 	void move(Direction, float distance);
 
-	double distance(const Position&);
-
 	Position getNeighbor(Direction);
 	void round();
-
-	bool setX(float x);
-	bool setY(float y);
-	bool set(float x, float y);
-	bool set(Position);
-	float getX();
-	float getY();
 
 	friend bool operator==(const Position& a, const Position& b)
 	{
@@ -87,8 +70,5 @@ public:
 		os << "(" << position.x << ", " << position.y << ")";
 		return os;
 	}
-
-	static float max_x;
-	static float max_y;
 };
 
