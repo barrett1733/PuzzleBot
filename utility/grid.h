@@ -48,9 +48,15 @@ public:
 		}
 	}
 
+	void clear(T t)
+	{
+		for (int i = 0; i < sizeX * sizeY; i++)
+			grid[i] = t;
+	}
+
 	T& at(Position pos)
 	{
-		return at(pos.getX(), pos.getY());
+		return at(pos.x, pos.y);
 	}
 
 	T& at(int x, int y)
@@ -63,7 +69,7 @@ public:
 
 	const T& at(Position pos) const
 	{
-		return at(pos.getX(), pos.getY())
+		return at(pos.x, pos.y)
 	}
 
 	const T& at(int x, int y) const
@@ -75,3 +81,6 @@ public:
 	}
 };
 
+typedef Grid<bool> GridBool;
+typedef Grid<int> GridInt;
+typedef Grid<float> GridFloat;
