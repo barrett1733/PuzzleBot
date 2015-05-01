@@ -19,7 +19,7 @@ int main()
 	EntityManager entities;
 	entities.loadFile("res/entities.txt");
 	LevelManager levels;
-	levels.loadLevels();
+	levels.loadFile("res/levels.txt");
 	
 	// might use transformable and drawable or something like that
 	sf::Transformable t1, t2;
@@ -37,7 +37,7 @@ int main()
 	game.entityManager = &entities;
 	game.init();
 
-	sf::RenderWindow window(sf::VideoMode(SCREEN_WIDTH, SCREEN_HEIGHT), "SFML works!");
+	sf::RenderWindow window(sf::VideoMode(SCREEN_WIDTH, SCREEN_HEIGHT), "Puzzlebot");
 	
 	steady_clock::time_point prev = steady_clock::now();
 	steady_clock::duration lag = steady_clock::duration::zero();
