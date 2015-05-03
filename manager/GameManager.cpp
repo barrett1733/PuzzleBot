@@ -7,20 +7,23 @@
 Position GameManager::convGridPos(Position pos)
 {
 	GridBool obs = *levelManager->getLevel(0);
-	return Position(pos.x * (gridDisplaySize / obs.getWidth()), pos.y * (gridDisplaySize / obs.getHeight()));
+	return Position(pos.x * (Config::gridDisplaySize / obs.getWidth()), pos.y * (Config::gridDisplaySize / obs.getHeight()));
 }
 
 Position GameManager::convScreenPos(Position pos)
 {
 	GridBool obs = *levelManager->getLevel(0);
-	return Position(std::round(pos.x / (gridDisplaySize / obs.getWidth())), std::round(pos.y / (gridDisplaySize / obs.getHeight())));
+	return Position(std::round(pos.x / (Config::gridDisplaySize / obs.getWidth())), std::round(pos.y / (Config::gridDisplaySize / obs.getHeight())));
 }
 
 void GameManager::init()
 {
 	start = entityManager->getEntity("robot").position;
 
-	test = new Pathfinding(LEVELSIZE, LEVELSIZE);
+	behaviorTree.loadFile("res/behaviortree.txt");
+	behaviorTree.printTree();
+
+	test = new Pathfinding(Config::LEVELSIZE, Config::LEVELSIZE);
 }
 
 void GameManager::eventUpdate(sf::Event& event)
@@ -30,6 +33,7 @@ void GameManager::eventUpdate(sf::Event& event)
 
 void GameManager::update()
 {
+
 	Position goal;
 	if (!key)
 	{
@@ -53,6 +57,7 @@ void GameManager::update()
 	if (!path.empty())
 	{
 		nextPos = *path.begin();
-		entityManager->getEntity("robot").moveTowards(nextPos);
+		entityManager->getEntity("robot").targetPos = nextPos;
+		entityManager->getEntity("robot").move();
 	}
 }

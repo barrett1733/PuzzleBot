@@ -5,6 +5,7 @@
 #include "../pathfinding/pathfinding.h"
 #include "../config/Config.h"
 #include <SFML\Window.hpp>
+#include "../behavior/BehaviorTree.h"
 
 class GameManager
 {
@@ -14,6 +15,7 @@ class GameManager
 	Pathfinding* test;
 	Path path;
 	bool key = false;
+	BehaviorTree behaviorTree;
 
 public:
 	~GameManager(){ delete test; test = NULL; }
