@@ -40,6 +40,7 @@ public:
 	void move(Direction, float distance);
 
 	Position getNeighbor(Direction);
+	Direction getDirection(Position);
 	void round();
 
 	friend bool operator==(const Position& a, const Position& b)

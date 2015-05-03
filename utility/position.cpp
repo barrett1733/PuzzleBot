@@ -64,6 +64,20 @@ Position Position::getNeighbor(Direction dir)
 	return pos;
 }
 
+Direction Position::getDirection(Position pos)
+{
+	Direction dir = D_NONE;
+	if (x < pos.x)
+		dir += D_RIGHT;
+	if (x > pos.x)
+		dir += D_LEFT;
+	if (y < pos.y)
+		dir += D_UP;
+	if (y > pos.y)
+		dir += D_DOWN;
+	return dir;
+}
+
 void Position::round()
 {
 	x = std::round(x);
