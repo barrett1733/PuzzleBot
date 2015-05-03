@@ -82,9 +82,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="behavior\NodeProcessor.cpp" />
     <ClCompile Include="behavior\BehaviorNode.cpp" />
     <ClCompile Include="behavior\BehaviorTree.cpp" />
+    <ClCompile Include="config\Config.cpp" />
+    <ClCompile Include="behavior\Decorator.cpp" />
     <ClCompile Include="display\DisplayControlPanel.cpp" />
+    <ClCompile Include="behavior\Leaf.cpp" />
     <ClCompile Include="manager\EntityManager.cpp" />
     <ClCompile Include="manager\GameManager.cpp" />
     <ClCompile Include="manager\ScreenManager.cpp" />
@@ -93,6 +97,7 @@
     <ClCompile Include="manager\LevelManager.cpp" />
     <ClCompile Include="load\LoadFile.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="behavior\Composite.cpp" />
     <ClCompile Include="utility\entity.cpp" />
     <ClCompile Include="pathfinding\obstruction-map.cpp" />
     <ClCompile Include="pathfinding\pathfinding.cpp" />
@@ -103,11 +108,15 @@
     <ClCompile Include="utility\timer.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="behavior\NodeProcessor.h" />
     <ClInclude Include="behavior\BehaviorTree.h" />
     <ClInclude Include="behavior\BehaviorNode.h" />
     <ClInclude Include="behavior\Node.h" />
+    <ClInclude Include="behavior\Task.h" />
     <ClInclude Include="config\Config.h" />
+    <ClInclude Include="behavior\Decorator.h" />
     <ClInclude Include="display\DisplayControlPanel.h" />
+    <ClInclude Include="behavior\Leaf.h" />
     <ClInclude Include="manager\EntityManager.h" />
     <ClInclude Include="manager\GameManager.h" />
     <ClInclude Include="manager\ScreenManager.h" />
@@ -115,6 +124,7 @@
     <ClInclude Include="graphics\GraphicsGrid.h" />
     <ClInclude Include="manager\LevelManager.h" />
     <ClInclude Include="load\LoadFile.h" />
+    <ClInclude Include="behavior\Composite.h" />
     <ClInclude Include="utility\entity.h" />
     <ClInclude Include="pathfinding\obstruction-map.h" />
     <ClInclude Include="pathfinding\pathfinding.h" />

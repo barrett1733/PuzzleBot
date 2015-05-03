@@ -1,2 +1,0 @@
-print=file accessed
-file=res/test2.txt

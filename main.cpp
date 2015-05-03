@@ -10,34 +10,24 @@
 
 int main()
 {
-	/*
-	BehaviorTree testtree;
-	testtree.loadFile("res/behaviortest.txt");
-	testtree.printTree();
-	std::cin.get();
-	*/
-	EntityManager entities;
-	entities.loadFile("res/entities.txt");
 	LevelManager levels;
 	levels.loadFile("res/levels.txt");
+	EntityManager entities;
+	entities.loadFile("res/entities.txt");
 	
-	// might use transformable and drawable or something like that
-	sf::Transformable t1, t2;
-	t1 = t2;
-
 	ScreenManager screen;
 	screen.levelManager = &levels;
 	screen.entityManager = &entities;
-	screen.create(SCREEN_WIDTH, SCREEN_HEIGHT);
+	screen.create(Config::SCREEN_WIDTH, Config::SCREEN_HEIGHT);
 	screen.init();
-	screen.loadFile("res/sfentities.txt");
+	screen.loadFile("res/screen graphics.txt");
 
 	GameManager game;
 	game.levelManager = &levels;
 	game.entityManager = &entities;
 	game.init();
 
-	sf::RenderWindow window(sf::VideoMode(SCREEN_WIDTH, SCREEN_HEIGHT), "Puzzlebot");
+	sf::RenderWindow window(sf::VideoMode(Config::SCREEN_WIDTH, Config::SCREEN_HEIGHT), "Puzzlebot");
 	
 	steady_clock::time_point prev = steady_clock::now();
 	steady_clock::duration lag = steady_clock::duration::zero();
@@ -61,8 +51,11 @@ int main()
 		steady_clock::duration MS_PER_UPDATE = milliseconds(5);
 		while (lag >= MS_PER_UPDATE)
 		{
-			game.update();
-			screen.update();
+			if (!Config::gamePause)
+			{
+				game.update();
+				screen.update();
+			}
 			lag -= MS_PER_UPDATE;
 		}
 
