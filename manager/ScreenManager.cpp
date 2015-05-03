@@ -5,44 +5,48 @@ void ScreenManager::init()
 {
 	gridDisplay = getDefaultView();
 
-	controlDisplay.setViewport(controlPanelViewport);
-	controlDisplay.reset(controlPanelRect);
+	controlDisplay.setViewport(Config::controlPanelViewport);
+	controlDisplay.reset(Config::controlPanelRect);
 
 	grid.setPosition(sf::Vector2f(0, 0));
-	grid.setSize(sf::Vector2f(gridDisplaySize, gridDisplaySize));
+	grid.setSize(sf::Vector2f(Config::gridDisplaySize, Config::gridDisplaySize));
 	grid.setOutlineThickness(1);
 	grid.setOutlineColor(sf::Color::Black);
 
-	button.setFillColor(sf::Color::Red);
-	button.setPosition(controlPanelRect.left + 10, controlPanelRect.top + 10);
-	button.setOutlineColor(sf::Color::Black);
-	button.setSize(sf::Vector2f(buttonSize, buttonSize));
+	pauseButton.setFillColor(sf::Color::Green);
+	pauseButton.setPosition(Config::controlPanelRect.left + 50, Config::controlPanelRect.top + 10);
+	pauseButton.setOutlineColor(sf::Color::Black);
+	pauseButton.setSize(sf::Vector2f(Config::buttonSize, Config::buttonSize));
 
+	inventoryBox.setFillColor(sf::Color::Black);
+	inventoryBox.setPosition(Config::controlPanelRect.left + 50, Config::controlPanelRect.top + 450);
+	inventoryBox.setOutlineColor(sf::Color::White);
+	inventoryBox.setOutlineThickness(10);
+	inventoryBox.setSize(sf::Vector2f(Config::buttonSize, Config::buttonSize));
 }
 
 Position ScreenManager::convertPosition(Position pos)
 {
 	GridBool obs = *levelManager->getLevel(0);
-	return Position(pos.x * (gridDisplaySize / obs.getWidth()), pos.y * (gridDisplaySize / obs.getHeight()));
+	return Position(pos.x * (Config::gridDisplaySize / obs.getWidth()), pos.y * (Config::gridDisplaySize / obs.getHeight()));
 }
-
 
 void ScreenManager::eventUpdate(sf::Event& event)
 {
-	if (event.type == sf::Event::MouseButtonPressed)
-	{
-		if (button.getGlobalBounds().contains(event.mouseButton.x, event.mouseButton.y))
-		{
-			button.setFillColor(sf::Color::Green);
-			std::cout << "pressed" << std::endl;
-		}
-	}
 	if (event.type == sf::Event::MouseButtonReleased)
 	{
-		if (button.getGlobalBounds().contains(event.mouseButton.x, event.mouseButton.y))
+		if (pauseButton.getGlobalBounds().contains(event.mouseButton.x, event.mouseButton.y))
 		{
-			button.setFillColor(sf::Color::Red);
-			std::cout << "released" << std::endl;
+			if (!Config::gamePause)
+			{
+				pauseButton.setFillColor(sf::Color::Red);
+				Config::gamePause = true;
+			}
+			else
+			{
+				pauseButton.setFillColor(sf::Color::Green);
+				Config::gamePause = false;
+			}
 		}
 	}
 }
@@ -57,7 +61,8 @@ void ScreenManager::render()
 		draw(*(*iter).second);
 	}
 	setView(controlDisplay);
-	draw(button);
+	draw(pauseButton);
+	draw(inventoryBox);
 }
 
 void ScreenManager::update()
@@ -66,6 +71,9 @@ void ScreenManager::update()
 	{
 		Position entityPos = convertPosition(entityManager->getEntity((*iter).first).position);
 		(*iter).second->setPosition(entityPos.x, entityPos.y);
+
+		sf::Shape* object = (*iter).second;
+		object->setScale(grid.getSize().x / Config::LEVELSIZE / 100, grid.getSize().y / Config::LEVELSIZE / 100);
 	}
 }
 
@@ -89,20 +97,10 @@ void ScreenManager::store(std::string name, std::string data)
 	{
 		if (data == "circle")
 		{
-			sfEntities[sfEntityName] = new sf::CircleShape(grid.getSize().y / LEVELSIZE / 2);
-			//possible to set scale instead of set size
-			//sfEntities[sfEntityName]->scale(1, 1);
+			sfEntities[sfEntityName] = new sf::CircleShape(50);
 		}
 		else if (data == "square")
-			sfEntities[sfEntityName] = new sf::RectangleShape(sf::Vector2f(grid.getSize().x / LEVELSIZE, grid.getSize().y / LEVELSIZE));
-	}
-	else if (name == "scalex")
-	{
-		sfEntities[sfEntityName]->scale(atof(data.c_str()), 1);
-	}
-	else if (name == "scaley")
-	{
-		sfEntities[sfEntityName]->scale(1, atof(data.c_str()));
+			sfEntities[sfEntityName] = new sf::RectangleShape(sf::Vector2f(100,100));
 	}
 	else if (name == "color")
 	{

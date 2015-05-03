@@ -5,12 +5,6 @@
 #include "../display/DisplayGrid.h"
 #include "../load/LoadFile.h"
 
-struct sfEntity
-{
-	sf::Shape* shape;
-	bool grid = true;
-};
-
 class ScreenManager : public sf::RenderTexture, public LoadFile
 {
 	typedef std::map<std::string, sf::Shape*> sfEntityMap;
@@ -23,7 +17,7 @@ public:
 	EntityManager* entityManager;
 	LevelManager* levelManager;
 	DisplayGrid grid;
-	sf::RectangleShape button;
+	sf::RectangleShape pauseButton, inventoryBox;
 	void init();
 	void eventUpdate(sf::Event& event);
 	void update();
