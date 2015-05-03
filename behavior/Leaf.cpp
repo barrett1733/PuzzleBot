@@ -6,7 +6,7 @@ void Leaf::addChild(Node& node)
 {
 }
 
-Node& Leaf::getChild()
+Node& Leaf::getChild(int i)
 {
 	throw "Assigning child to Leaf: " + name;
 }
@@ -18,5 +18,5 @@ int Leaf::getChildCount()
 
 bool Leaf::running(Navigator& nav)
 {
-
+	return action.run();
 }

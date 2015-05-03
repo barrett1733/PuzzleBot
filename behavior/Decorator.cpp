@@ -6,7 +6,7 @@ void Decorator::addChild(Node& node)
 	child = &node;
 }
 
-Node& Decorator::getChild()
+Node& Decorator::getChild(int i)
 {
 	return *child;
 }

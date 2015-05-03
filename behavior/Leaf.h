@@ -7,8 +7,9 @@ class Leaf :
 {
 	bool running(Navigator&);
 public:
+	Leaf(Task::Action action) : action(action) {}
 	Task::Action action;
 	void addChild(Node& node);
-	Node& getChild();
+	Node& getChild(int);
 	int getChildCount();
 };

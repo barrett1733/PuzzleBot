@@ -9,7 +9,7 @@ protected:
 	Node* child = NULL;
 public:
 	void addChild(Node& node);
-	Node& getChild();
+	Node& getChild(int);
 	int getChildCount();
 };
 

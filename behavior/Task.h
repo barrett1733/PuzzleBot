@@ -7,13 +7,13 @@ namespace Task
 	class Action
 	{
 	protected:
-		static EntityManager* entityManager;
-		static LevelManager* levelManager;
 		std::string entityName, targetName;
 		Entity *entity, *target;
 	public:
+		static EntityManager* entityManager;
+		static LevelManager* levelManager;
 		void init();
-		virtual bool run();
+		virtual bool run() { return 0; }
 	};
 
 	class Move : public Action

@@ -1,6 +1,8 @@
 #include "Task.h"
 
 using namespace Task;
+EntityManager* Action::entityManager = NULL;
+LevelManager* Action::levelManager = NULL;
 
 void Action::init()
 {
@@ -12,6 +14,7 @@ void Action::init()
 
 bool Move::run()
 {
+	init();
 	GridBool &grid = *levelManager->getLevel(0);
 	if (!grid.at(target->position))
 	{
@@ -27,6 +30,7 @@ bool Move::run()
 
 bool Push::run()
 {
+	init();
 	Direction dir = entity->position.getDirection(target->position);
 	GridBool &grid = *levelManager->getLevel(0);
 	if (!grid.at(target->position.getNeighbor(dir)))
@@ -43,6 +47,7 @@ bool Push::run()
 
 bool Pull::run()
 {
+	init();
 	Direction dir = entity->position.getDirection(entity->position);
 	GridBool &grid = *levelManager->getLevel(0);
 	if (!grid.at(entity->position.getNeighbor(dir)))
@@ -59,15 +64,15 @@ bool Pull::run()
 
 bool Pickup::run()
 {
-
+	return false;
 }
 
 bool Drop::run()
 {
-
+	return false;
 }
 
 bool Trigger::run()
 {
-
+	return false;
 }
