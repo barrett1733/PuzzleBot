@@ -35,5 +35,16 @@ void Entity::moveTowards(Position newPos)
 	dx *= speed;
 	dy *= speed;
 
-	position = Position(position.x + dx, position.y + dy);
+	position.x += dx;
+	position.y += dy;
+}
+
+void Entity::moveTowards(Direction dir)
+{
+	moveTowards(position.getNeighbor(dir));
+}
+
+void Entity::move()
+{
+	moveTowards(targetPos);
 }
