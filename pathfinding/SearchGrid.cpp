@@ -1,15 +1,21 @@
 #include "SearchGrid.h"
+using namespace Pathfinding;
 
-SearchGrid::SearchGrid(int sizeX, int sizeY) :
-	sizeX(sizeX),
-	sizeY(sizeY)
+SearchGrid::SearchGrid(int sizeX, int sizeY)
 {
+	init(sizeX, sizeY);
+}
+
+SearchGrid::~SearchGrid() { }
+
+void SearchGrid::init(int x, int y)
+{
+	sizeX = x;
+	sizeY = y;
 	nodeGrid.alloc(sizeX, sizeY);
 	boolGrid.alloc(sizeX, sizeY);
 	clear();
 }
-
-SearchGrid::~SearchGrid() { }
 
 void SearchGrid::clear()
 {

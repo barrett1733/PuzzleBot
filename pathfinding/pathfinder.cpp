@@ -1,17 +1,27 @@
-#include "pathfinding.h"
+#include "pathfinder.h"
 #include "../config/Config.h"
 
-double Pathfinding::heursticCost(Position a, Position b)
+using namespace Pathfinding;
+double Pathfinder::heursticCost(Position a, Position b)
 {
 	return ManhattanDistance(a, b);
 }
 
-double Pathfinding::pathCost(Position a, Position b)
+double Pathfinder::pathCost(Position a, Position b)
 {
 	return EuclideanDistance(a, b);
 }
 
-Path Pathfinding::findPath(Position start, Position goal, GridBool* obsMap)
+void Pathfinder::init(int x, int y)
+{
+	size_x = x; 
+	size_y = y;
+	searchLimiter = false;
+	indexGrid.init(x, y);
+	searchMax= (x * y) / 8;
+}
+
+Path Pathfinder::findPath(Position start, Position goal, GridBool* obsMap)
 {
 	goalReached = false;
 	searchCounter = 0;
@@ -72,7 +82,7 @@ Path Pathfinding::findPath(Position start, Position goal, GridBool* obsMap)
 }
 
 // Does not include original position
-Path Pathfinding::constructPath(Node* goal, int sizex, int sizey)
+Path Pathfinder::constructPath(Node* goal, int sizex, int sizey)
 {
 	Node* node = goal;
 	Path path;
@@ -95,13 +105,13 @@ Path Pathfinding::constructPath(Node* goal, int sizex, int sizey)
 	return path;
 }
 
-void Pathfinding::clear()
+void Pathfinder::clear()
 {
 	searchList.clear();
 	indexGrid.clear();
 }
 
-Position Pathfinding::findNextPosition(Position start, Position goal, GridBool* obstructionMap)
+Position Pathfinder::findNextPosition(Position start, Position goal, GridBool* obstructionMap)
 {
 	return findPath(start, goal, obstructionMap)[0];
 }

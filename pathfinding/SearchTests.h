@@ -22,7 +22,7 @@ void runAStarTest(Position start, Position goal, ObstructionMap* obsMap, int pf)
 {
 	cout << endl << "A* Test" << endl;
 
-	Pathfinding test(mapSizeX, mapSizeY);
+	Pathfinder test(mapSizeX, mapSizeY);
 
 	Timer timer;
 	timer.start();
