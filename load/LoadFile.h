@@ -6,7 +6,7 @@
 
 class LoadFile
 {
-	const bool DEBUG = false;
+	const bool DEBUG = true;
 	const char delimiter = '=';
 	const char comment = '#';
 

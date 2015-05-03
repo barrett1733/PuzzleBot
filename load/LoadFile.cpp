@@ -15,6 +15,10 @@ bool LoadFile::checkDelims(std::string str)
 
 	if (DEBUG)
 	{
+		if (!str.empty() && str[0] != comment && delim == 1)
+			std::cout << "O ";
+		else
+			std::cout << "X ";
 		if (str.empty())
 			std::cout << "NEWLINE - " << str << std::endl;
 		else if (str[0] == comment)
@@ -78,19 +82,21 @@ void LoadFile::parse(std::string line)
 		name = line.substr(0, lineDelim);
 		type = line.substr(lineDelim + 1, line.size());
 
-		if (DEBUG)
-			std::cout << name << "\t" << type << std::endl;
+		//if (DEBUG)
+		//	std::cout << name << "\t" << type << std::endl;
+		if (name == "file")
+		{
+			addFileToQueue(type);
+		}
+		else if (name == "print")
+		{
+			std::cout << type << std::endl;
+		}
+		else
+		{
+			store(name, type);
+		}
 	}
 
-	if (name == "file")
-	{
-		addFileToQueue(type);
-	}
-	else if (name == "print")
-	{
-		std::cout << type << std::endl;
-	}
-	else
-		store(name, type);
 }
 
