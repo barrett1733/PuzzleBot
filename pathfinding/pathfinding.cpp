@@ -11,7 +11,7 @@ double Pathfinding::pathCost(Position a, Position b)
 	return EuclideanDistance(a, b);
 }
 
-Path Pathfinding::findPath(Position start, Position goal, GridBool* obstructionMap)
+Path Pathfinding::findPath(Position start, Position goal, GridBool* obsMap)
 {
 	goalReached = false;
 	searchCounter = 0;
@@ -28,7 +28,7 @@ Path Pathfinding::findPath(Position start, Position goal, GridBool* obstructionM
 		searchCounter++;
 
 		if (searchList.empty())
-			return constructPath(closestToGoalNode);
+			return constructPath(closestToGoalNode, obsMap->getWidth(), obsMap->getHeight());
 
 		curNode = searchList.pop();
 
@@ -46,7 +46,7 @@ Path Pathfinding::findPath(Position start, Position goal, GridBool* obstructionM
 			{
 				neighborPos = curNode->pos;
 				neighborPos.move(dir);
-				if (neighborPos.checkSanity(LEVELSIZE, LEVELSIZE) && obstructionMap->at(neighborPos) == false)
+				if (neighborPos.checkSanity(obsMap->getWidth(), obsMap->getHeight()) && obsMap->at(neighborPos) == false)
 				{
 					if (indexGrid.checkExists(neighborPos))
 					{
@@ -68,15 +68,15 @@ Path Pathfinding::findPath(Position start, Position goal, GridBool* obstructionM
 			}
 		}
 	}
-	return constructPath(curNode);
+	return constructPath(curNode, obsMap->getWidth(), obsMap->getHeight());
 }
 
 // Does not include original position
-Path Pathfinding::constructPath(Node* goal)
+Path Pathfinding::constructPath(Node* goal, int sizex, int sizey)
 {
 	Node* node = goal;
 	Path path;
-	path.reserve(LEVELSIZE * LEVELSIZE);
+	path.reserve(sizex * sizey);
 
 	if (node->parentNode == NULL)
 	{

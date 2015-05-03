@@ -33,7 +33,7 @@ class Pathfinding
 
 	double pathCost(Position a, Position b);
 	double heursticCost(Position a, Position b);
-	Path constructPath(Node*);
+	Path constructPath(Node*, int sizex, int sizey);
 	void clear();
 
 public:
