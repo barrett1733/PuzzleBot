@@ -1,4 +1,7 @@
 #include "BehaviorTree.h"
+#include "Leaf.h"
+#include "Decorator.h"
+#include "Composite.h"
 
 using namespace Behavior;
 BehaviorTree::BehaviorTree()
@@ -22,8 +25,8 @@ void BehaviorTree::printNode(Node* node, int depth)
 	}
 	std::cout << *node;
 	depth++;
-	for (int i = 0; i < node->childNodes.size(); i++)
-		printNode(node->childNodes[i], depth);
+	for (int i = 0; i < node->getChildCount(); i++)
+		printNode(&node->getChild(i), depth);
 }
 
 void BehaviorTree::printTree()
@@ -34,6 +37,12 @@ void BehaviorTree::printTree()
 void BehaviorTree::postLoad()
 {
 	link();
+	cur = root;
+}
+
+void BehaviorTree::process()
+{
+
 }
 
 Node* BehaviorTree::findNode(std::string name)
@@ -60,7 +69,7 @@ void BehaviorTree::link()
 		{
 			child = tree[j];
 			if (child->name == childName)
-				parent->addChild(child);
+				parent->addChild(*child);
 		}
 	}
 }
@@ -70,39 +79,60 @@ void BehaviorTree::store(std::string name, std::string data)
 	if (name == "name")
 	{
 		newNode = new Node();
-		newNode->name = data;
+		nodeName = data;
 		tree.push_back(newNode);
 	}
 	else if (newNode != NULL)
 	{
-		if (name == "action")
+		if (name == "leaf")
 		{
-			if (data == "moveup")
-				newNode->action = Action::MOVE_UP;
-			else if (data == "movedown")
-				newNode->action = Action::MOVE_DOWN;
-			else if (data == "moveleft")
-				newNode->action = Action::MOVE_LEFT;
-			else if (data == "moveright")
-				newNode->action = Action::MOVE_RIGHT;
-			else if (data == "movetoward")
-				newNode->action = Action::MOVE_TOWARD;
-			else if (data == "moveaway")
-				newNode->action = Action::MOVE_AWAY;
+			if (data == "move")
+				newNode = ACTION_MOVE;
 			else if (data == "objectpush")
-				newNode->action = Action::OBJECT_PUSH;
+				newNode = ACTION_OBJECT_PUSH;
 			else if (data == "objectpull")
-				newNode->action = Action::OBJECT_PULL;
+				newNode = ACTION_OBJECT_PULL;
 			else if (data == "objectpickup")
-				newNode->action = Action::OBJECT_PICKUP;
+				newNode = ACTION_OBJECT_PICKUP;
 			else if (data == "objectdrop")
-				newNode->action = Action::OBJECT_DROP;
+				newNode = ACTION_OBJECT_DROP;
+			else if (data == "objecttrigger")
+				newNode = ACTION_OBJECT_TRIGGER;
 			else
-				newNode->action = Action::WAIT;
+				newNode = ACTION_WAIT;
+		}
+		else if (name == "decorator")
+		{
+			if (data == "invert")
+				newNode = new Invert();
+			else if (data == "repeat")
+				newNode = new Repeat();
+			else if (data == "untilfail")
+				newNode = new UntilFail();
+			else if (data == "untilsuccess")
+				newNode = new UntilSuccess();
+			else if (data == "alwaysfail")
+				newNode = new AlwaysFail();
+			else if (data == "alwayssucceed")
+				newNode = new AlwaysSucceed();
+		}
+		else if (name == "selector")
+		{
+			if (data == "selector")
+				newNode = new Selector();
+			else if(data == "sequence")
+				newNode = new Sequence();
+			//TODO: Impliment
+			//else if(data == "random")
+			//	newNode = SELECTOR_RANDOM;
 		}
 		else if (name == "child")
 		{
 			parentChildMap.push_back(StringPair(newNode->name, data));
+		}
+		else if (name == "target")
+		{
+			newNode->target = data;
 		}
 	}
 }
