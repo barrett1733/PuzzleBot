@@ -14,33 +14,6 @@ GridBool* LevelManager::getLevel(int num)
 	}
 }
 
-void LevelManager::loadLevels()
-{
-	testLevel();
-}
-
-void LevelManager::testLevel()
-{
-	int mapSizeX = 10;
-	int mapSizeY = 10;
-
-	levels.push_back(GridBool(10, 10));
-	LEVELSIZE = 10;
-
-	Position start = Position(0, 4);
-	Position goal = Position(9, 4);
-
-	std::vector<std::pair<int, int>> obs = {
-			{ 2, 2 }, { 2, 3 }, { 2, 5 }, { 2, 6 },
-			{ 3, 1 }, { 3, 2 }, { 3, 6 }, { 3, 7 },
-			{ 4, 1 }, { 4, 7 },
-			{ 5, 1 }, { 5, 2 }, { 5, 6 }, { 5, 7 },
-			{ 6, 2 }, { 6, 3 }, { 6, 4 }, { 6, 5 }, { 6, 6 }
-	};
-	for (int i = 0; i < obs.size(); i++)
-		levels[0].at(Position(obs[i].first, obs[i].second)) = true;
-}
-
 Position LevelManager::parseCoords(std::string coord)
 {
 	char delimiter = ',';
@@ -62,8 +35,8 @@ void LevelManager::store(std::string name, std::string data)
 	}
 	else if (name == "size")
 	{
-		LEVELSIZE = atoi(data.c_str());
-		levels.push_back(GridBool(LEVELSIZE, LEVELSIZE));
+		Config::LEVELSIZE = atoi(data.c_str());
+		levels.push_back(GridBool(Config::LEVELSIZE, Config::LEVELSIZE));
 		levels[currentLevelLoading].clear(false);
 	}
 	else if (name == "wall")
