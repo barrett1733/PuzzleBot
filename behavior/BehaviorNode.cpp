@@ -2,28 +2,21 @@
 
 using namespace Behavior;
 
-Node* Node::searchChild(std::string name_)
+bool Node::getResult()
 {
-	if (name == name_)
-		return this;
-	else
+	return result;
+}
+
+void Node::start(Navigator& nav)
+{
+	if (nav.top() != this)
 	{
-		for (int i = 0; i < childNodes.size(); i++)
-		{
-			if (childNodes[i]->searchChild(name_) != NULL)
-				return childNodes[i]->searchChild(name_);
-			else
-				return NULL;
-		}
+		nav.push(this);
+		preRun();
 	}
-}
-
-void Node::addChild(Node* node)
-{
-	childNodes.push_back(node);
-}
-
-bool Node::process()
-{
-	return 0;
+	if (running(nav)) // if true, finished running
+	{
+		nav.pop();
+		postRun();
+	}
 }

@@ -2,38 +2,31 @@
 #include <string>
 #include <iostream>
 #include <vector>
+#include <stack>
 
 namespace Behavior
 {
-	enum Action
-	{
-		NONE,
-		WAIT,
-		MOVE_UP,
-		MOVE_DOWN,
-		MOVE_LEFT,
-		MOVE_RIGHT,
-		MOVE_TOWARD,
-		MOVE_AWAY,
-		OBJECT_PUSH,
-		OBJECT_PULL,
-		OBJECT_PICKUP,
-		OBJECT_DROP
-	};
+	typedef std::stack<Node*> Navigator;
+
 	class Node
 	{
-		bool result = false;
+	protected:
+		bool result;
+		virtual void preRun();
+		virtual bool running(Navigator&);
+		virtual void postRun();
 	public:
 		std::string name;
-		std::vector<Node*> childNodes;
-		Action action = NONE;
+		virtual void addChild(Node& node);
+		virtual Node& getChild(int);
+		virtual int getChildCount();
 
-		Node* searchChild(std::string name_);
-		void addChild(Node* node);
-		bool process();
+		bool getResult();
+		void start(Navigator&);
+
 		friend std::ostream& operator<<(std::ostream& os, const Node& node)
 		{
-			os << node.name << std::endl;
+			os << node.name << " " << " " << node.nodeAction << " " << node.target << std::endl;
 			return os;
 		}
 	};
