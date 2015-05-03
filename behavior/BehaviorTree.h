@@ -2,17 +2,15 @@
 #include <vector>
 #include "BehaviorNode.h"
 #include "../load/LoadFile.h"
-#include "NodeProcessor.h"
 
-class BehaviorTree : public LoadFile, public NodeProcessor
+class BehaviorTree : public LoadFile
 {
-	std::stack<Node*> navigator;
+	Behavior::Node::Navigator navigator;
 	typedef std::pair<std::string, std::string> StringPair;
 	Behavior::Node* root = NULL;
 	Behavior::Node* newNode = NULL;
 	std::vector<Behavior::Node*> tree;
 	std::vector<StringPair> parentChildMap;
-	std::string nodeName;
 
 	Behavior::Node* findNode(std::string name);
 	void printNode(Behavior::Node* node, int depth);

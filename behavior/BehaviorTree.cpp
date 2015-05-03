@@ -60,79 +60,75 @@ void BehaviorTree::link()
 	std::string parentName, childName;
 	Node *parent, *child;
 	root = tree[0];
-	for (int i = 0; i < parentChildMap.size(); i++)
-	{
-		parentName = parentChildMap[i].first;
-		childName = parentChildMap[i].second;
-		parent = findNode(parentName);
-		for (int j = 0; j < tree.size(); j++)
+	if (!tree.empty())
+		for (int i = 0; i < parentChildMap.size(); i++)
 		{
-			child = tree[j];
-			if (child->name == childName)
-				parent->addChild(*child);
+			parentName = parentChildMap[i].first;
+			childName = parentChildMap[i].second;
+			parent = findNode(parentName);
+			for (int j = 0; j < tree.size(); j++)
+			{
+				child = tree[j];
+				if (child->name == childName)
+					parent->addChild(*child);
+			}
 		}
-	}
 }
 
 void BehaviorTree::store(std::string name, std::string data)
 {
-	if (name == "name")
+	if (name == "leaf")
 	{
-		newNode = new Node();
-		nodeName = data;
+		if (data == "move")
+			newNode = new Leaf(Task::Move());
+		else if (data == "objectpush")
+			newNode = new Leaf(Task::Push());
+		else if (data == "objectpull")
+			newNode = new Leaf(Task::Pull());
+		else if (data == "objectpickup")
+			newNode = new Leaf(Task::Pickup());
+		else if (data == "objectdrop")
+			newNode = new Leaf(Task::Drop());
+		else if (data == "objecttrigger")
+			newNode = new Leaf(Task::Trigger());
+		tree.push_back(newNode);
+	}
+	else if (name == "decorator")
+	{
+		if (data == "invert")
+			newNode = new Invert();
+		else if (data == "repeat")
+			newNode = new Repeat();
+		else if (data == "untilfail")
+			newNode = new UntilFail();
+		else if (data == "untilsuccess")
+			newNode = new UntilSuccess();
+		else if (data == "alwaysfail")
+			newNode = new AlwaysFail();
+		else if (data == "alwayssucceed")
+			newNode = new AlwaysSucceed();
+		tree.push_back(newNode);
+	}
+	else if (name == "composite")
+	{
+		if (data == "selector")
+			newNode = new Selector();
+		else if(data == "sequence")
+			newNode = new Sequence();
+		//TODO: Impliment
+		//else if(data == "random")
+		//	newNode = SELECTOR_RANDOM;
 		tree.push_back(newNode);
 	}
 	else if (newNode != NULL)
 	{
-		if (name == "leaf")
+		if (name == "name")
 		{
-			if (data == "move")
-				newNode = ACTION_MOVE;
-			else if (data == "objectpush")
-				newNode = ACTION_OBJECT_PUSH;
-			else if (data == "objectpull")
-				newNode = ACTION_OBJECT_PULL;
-			else if (data == "objectpickup")
-				newNode = ACTION_OBJECT_PICKUP;
-			else if (data == "objectdrop")
-				newNode = ACTION_OBJECT_DROP;
-			else if (data == "objecttrigger")
-				newNode = ACTION_OBJECT_TRIGGER;
-			else
-				newNode = ACTION_WAIT;
-		}
-		else if (name == "decorator")
-		{
-			if (data == "invert")
-				newNode = new Invert();
-			else if (data == "repeat")
-				newNode = new Repeat();
-			else if (data == "untilfail")
-				newNode = new UntilFail();
-			else if (data == "untilsuccess")
-				newNode = new UntilSuccess();
-			else if (data == "alwaysfail")
-				newNode = new AlwaysFail();
-			else if (data == "alwayssucceed")
-				newNode = new AlwaysSucceed();
-		}
-		else if (name == "selector")
-		{
-			if (data == "selector")
-				newNode = new Selector();
-			else if(data == "sequence")
-				newNode = new Sequence();
-			//TODO: Impliment
-			//else if(data == "random")
-			//	newNode = SELECTOR_RANDOM;
+			newNode->name = data;
 		}
 		else if (name == "child")
 		{
 			parentChildMap.push_back(StringPair(newNode->name, data));
-		}
-		else if (name == "target")
-		{
-			newNode->target = data;
 		}
 	}
 }
