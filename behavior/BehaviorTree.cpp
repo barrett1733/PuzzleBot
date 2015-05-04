@@ -38,11 +38,12 @@ void BehaviorTree::postLoad()
 {
 	link();
 	cur = root;
+	//navigator.push(root);
 }
 
-void BehaviorTree::process()
+void BehaviorTree::update()
 {
-
+	root->start(navigator);
 }
 
 Node* BehaviorTree::findNode(std::string name)
@@ -79,19 +80,20 @@ void BehaviorTree::store(std::string name, std::string data)
 {
 	if (name == "leaf")
 	{
-		if (data == "move")
-			newNode = new Leaf(Task::Move());
-		else if (data == "objectpush")
-			newNode = new Leaf(Task::Push());
-		else if (data == "objectpull")
-			newNode = new Leaf(Task::Pull());
-		else if (data == "objectpickup")
-			newNode = new Leaf(Task::Pickup());
-		else if (data == "objectdrop")
-			newNode = new Leaf(Task::Drop());
-		else if (data == "objecttrigger")
-			newNode = new Leaf(Task::Trigger());
+		newNode = new Leaf();
 		tree.push_back(newNode);
+		if (data == "move")
+			newNode->action = new Task::Move();
+		else if (data == "objectpush")
+			newNode->action = new Task::Push();
+		else if (data == "objectpull")
+			newNode->action = new Task::Pull();
+		else if (data == "objectpickup")
+			newNode->action = new Task::Pickup();
+		else if (data == "objectdrop")
+			newNode->action = new Task::Drop();
+		else if (data == "objecttrigger")
+			newNode->action = new Task::Trigger();
 	}
 	else if (name == "decorator")
 	{
@@ -129,6 +131,14 @@ void BehaviorTree::store(std::string name, std::string data)
 		else if (name == "child")
 		{
 			parentChildMap.push_back(StringPair(newNode->name, data));
+		}
+		else if (name == "entity")
+		{
+			newNode->action->entityName = data;
+		}
+		else if (name == "target")
+		{
+			newNode->action->targetName = data;
 		}
 	}
 }

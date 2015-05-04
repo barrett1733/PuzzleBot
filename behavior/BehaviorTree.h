@@ -23,7 +23,7 @@ public:
 	void store(std::string name, std::string type);
 	void link();
 	void printTree();
-	void process();
+	void update();
 	Behavior::Node* getRoot() { return root; }
 };
 
