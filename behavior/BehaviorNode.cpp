@@ -7,16 +7,23 @@ bool Node::getResult()
 	return result;
 }
 
+bool Node::isRunning()
+{
+	return running;
+}
+
 void Node::start(Navigator& nav)
 {
-	if (nav.top() != this)
+	if (nav.empty() || nav.top() != this)
 	{
 		nav.push(this);
 		preRun();
 	}
-	if (running(nav)) // if true, finished running
-	{
-		nav.pop();
-		postRun();
-	}
+	run(nav);
+}
+
+void Node::stop(Navigator& nav)
+{
+	nav.pop();
+	postRun();
 }
