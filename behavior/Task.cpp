@@ -46,9 +46,9 @@ bool Move::run()
 	// position reached
 	if (path.empty())
 	{
-		return true;
+		return false;
 	}
-	return false;
+	return true;
 }
 
 bool Push::run()
@@ -64,8 +64,8 @@ bool Push::run()
 		target->move();
 	}
 	else if (entity->position == entity->targetPos && target->position == target->targetPos)
-		return true;
-	return false;
+		return false;
+	return true;
 }
 
 bool Pull::run()
@@ -81,8 +81,8 @@ bool Pull::run()
 		entity->move();
 	}
 	else if (entity->position == entity->targetPos && entity->position == entity->targetPos)
-		return true;
-	return false;
+		return false;
+	return true;
 }
 
 bool Pickup::run()
