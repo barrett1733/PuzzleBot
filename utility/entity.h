@@ -11,8 +11,6 @@ class Entity
 		ITEM,
 		BOX
 	};
-	void moveTowards(Position);
-	void moveTowards(Direction);
 public:
 	Position position, targetPos;
 	float speed;
@@ -24,6 +22,8 @@ public:
 	Entity& operator= (const Entity&);
 
 	void move();
+	void moveTowards(Position);
+	void moveTowards(Direction);
 
 	friend std::ostream& operator<< (std::ostream & os, const Entity & entity)
 	{

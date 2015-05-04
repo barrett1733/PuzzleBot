@@ -15,6 +15,9 @@ int main()
 	EntityManager entities;
 	entities.loadFile("res/entities.txt");
 	
+	Task::Action::entityManager = &entities;
+	Task::Action::levelManager = &levels;
+
 	ScreenManager screen;
 	screen.levelManager = &levels;
 	screen.entityManager = &entities;

@@ -82,9 +82,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="behavior\NodeProcessor.cpp" />
     <ClCompile Include="behavior\BehaviorNode.cpp" />
     <ClCompile Include="behavior\BehaviorTree.cpp" />
+    <ClCompile Include="behavior\Task.cpp" />
     <ClCompile Include="config\Config.cpp" />
     <ClCompile Include="behavior\Decorator.cpp" />
     <ClCompile Include="display\DisplayControlPanel.cpp" />
@@ -100,7 +100,7 @@
     <ClCompile Include="behavior\Composite.cpp" />
     <ClCompile Include="utility\entity.cpp" />
     <ClCompile Include="pathfinding\obstruction-map.cpp" />
-    <ClCompile Include="pathfinding\pathfinding.cpp" />
+    <ClCompile Include="pathfinding\pathfinder.cpp" />
     <ClCompile Include="pathfinding\SearchGrid.cpp" />
     <ClCompile Include="utility\distance.cpp" />
     <ClCompile Include="pathfinding\nodelist.cpp" />
@@ -108,7 +108,6 @@
     <ClCompile Include="utility\timer.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="behavior\NodeProcessor.h" />
     <ClInclude Include="behavior\BehaviorTree.h" />
     <ClInclude Include="behavior\BehaviorNode.h" />
     <ClInclude Include="behavior\Node.h" />
@@ -127,7 +126,7 @@
     <ClInclude Include="behavior\Composite.h" />
     <ClInclude Include="utility\entity.h" />
     <ClInclude Include="pathfinding\obstruction-map.h" />
-    <ClInclude Include="pathfinding\pathfinding.h" />
+    <ClInclude Include="pathfinding\pathfinder.h" />
     <ClInclude Include="pathfinding\PrintData.h" />
     <ClInclude Include="pathfinding\SearchGrid.h" />
     <ClInclude Include="pathfinding\SearchTests.h" />

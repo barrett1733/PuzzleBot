@@ -1,33 +1,14 @@
-name = passThroughDoor
-child = walkToDoor
-child = ifDoorClosed
-child = walkThroughDoor
-child = closeDoor
+composite = sequence
+name = goal
+child = walktokey
+child = walktoexit
 
-name = ifDoorClosed
-child = openDoor
-child = ifDoorLocked
-child = smashDoor
+leaf = move
+name = walk to key
+entity = robot
+target = key
 
-name = ifDoorLocked
-child = unlockDoor
-child = openDoor
-
-name = walkToDoor
-action = walk
-
-name = walkThroughDoor
-action = move toward
-
-name = openDoor
-action = object push
-
-name = closeDoor
-action = object push
-
-name = unlockDoor
-action = object pick up
-
-name = smashDoor
-action = object push
-
+leaf = move
+name = walk to exit
+entity = robot
+target = exit
