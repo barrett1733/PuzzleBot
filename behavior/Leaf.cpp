@@ -18,6 +18,6 @@ int Leaf::getChildCount()
 
 void Leaf::run(Navigator& nav)
 {
-	if(!action->run())
+	if(action->run() == false) // if finished running
 		stop(nav);
 }
