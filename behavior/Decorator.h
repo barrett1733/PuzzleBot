@@ -15,31 +15,31 @@ public:
 
 class Invert : public Decorator
 {
-	bool running(Navigator&);
+	void run(Navigator&);
 };
 
 class Repeat : public Decorator
 {
-	bool running(Navigator&);
+	void run(Navigator&);
 };
 
 class UntilFail : public Decorator
 {
-	bool running(Navigator&);
+	void run(Navigator&);
 };
 
 class UntilSuccess : public Decorator
 {
-	bool running(Navigator&);
+	void run(Navigator&);
 };
 
 class AlwaysFail : public Decorator
 {
-	bool running(Navigator&);
+	void run(Navigator&);
 };
 
 class AlwaysSucceed : public Decorator
 {
-	bool running(Navigator&);
+	void run(Navigator&);
 };
 

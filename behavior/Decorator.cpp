@@ -16,45 +16,63 @@ int Decorator::getChildCount()
 	return child == NULL ? 0 : 1;
 }
 
-bool Invert::running(Navigator& nav)
+void Invert::run(Navigator& nav)
 {
 	child->start(nav);
-	result = !child->getResult();
-	return true;
+	if (!child->isRunning())
+	{
+		result = !child->getResult();
+		stop(nav);
+	}
 }
 
-bool Repeat::running(Navigator& nav)
+void Repeat::run(Navigator& nav)
 {
 	child->start(nav);
-	result = child->getResult();
-	return false;
+	if (!child->isRunning())
+	{
+		result = child->getResult();
+		//stop(nav);
+	}
 }
 
-bool UntilFail::running(Navigator& nav)
+void UntilFail::run(Navigator& nav)
 {
 	child->start(nav);
-	result = child->getResult();
-	return result ? false : true;
+	if (!child->isRunning())
+	{
+		result = child->getResult();
+		if (result == false) stop(nav);
+	}
 }
 
-bool UntilSuccess::running(Navigator& nav)
+void UntilSuccess::run(Navigator& nav)
 {
 	child->start(nav);
-	result = child->getResult();
-	return result ? true : false;
+	if (!child->isRunning())
+	{
+		result = child->getResult();
+		if (result == true) stop(nav);
+	}
 }
 
-bool AlwaysFail::running(Navigator& nav)
+void AlwaysFail::run(Navigator& nav)
 {
 	child->start(nav);
-	result = false;
-	return true;
+	if (!child->isRunning())
+	{
+		result = false;
+		stop(nav);
+	}
 }
 
-bool AlwaysSucceed::running(Navigator& nav)
+void AlwaysSucceed::run(Navigator& nav)
 {
 	child->start(nav);
-	result = true;
-	return true;
+	if (!child->isRunning())
+	{
+		result = true;
+		stop(nav);
+	}
 }
 

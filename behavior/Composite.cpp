@@ -22,39 +22,41 @@ void Composite::preRun()
 	curChild = 0;
 }
 
-bool Selector::running(Navigator& nav)
+void Selector::run(Navigator& nav)
 {
 	childNodes[curChild]->start(nav);
-	if (childNodes[curChild]->getResult()) // Selector - finish when child succeeds
+	if (!childNodes[curChild]->isRunning())
 	{
-		result = true;
-		return true;
-	}
-	else if (curChild >= childNodes.size())
-	{
-		result = false;
-		return true;
-	}
-	else
+		if (childNodes[curChild]->getResult()) // Selector - finish when child succeeds
+		{
+			result = true;
+			stop(nav);
+		}
 		curChild++;
-	return false;
+		if (curChild >= childNodes.size())
+		{
+			result = false;
+			stop(nav);
+		}
+	}
 }
 
-bool Sequence::running(Navigator& nav)
+void Sequence::run(Navigator& nav)
 {
 	childNodes[curChild]->start(nav);
-	if (!childNodes[curChild]->getResult()) // sequence - finish when child fails
+	if (!childNodes[curChild]->isRunning())
 	{
-		result = false;
-		return false;
-	}
-	else if (curChild >= childNodes.size())
-	{
-		result = true;
-		return false;
-	}
-	else
+		if (!childNodes[curChild]->getResult()) // sequence - finish when child fails
+		{
+			result = false;
+			stop(nav);
+		}
 		curChild++;
-	return true;
+		if (curChild >= childNodes.size())
+		{
+			result = true;
+			stop(nav);
+		}
+	}
 }
 

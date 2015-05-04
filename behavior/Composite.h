@@ -15,10 +15,10 @@ public:
 
 class Selector : public Composite
 {
-	bool running(Navigator&);
+	void run(Navigator&);
 }; 
 
 class Sequence : public Composite
 {
-	bool running(Navigator&);
+	void run(Navigator&);
 };
