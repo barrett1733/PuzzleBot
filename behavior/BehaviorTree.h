@@ -14,16 +14,16 @@ class BehaviorTree : public LoadFile
 
 	Behavior::Node* findNode(std::string name);
 	void printNode(Behavior::Node* node, int depth);
-	void postLoad();
+	void link();
 
 public:
 	BehaviorTree();
 	~BehaviorTree();
 	Behavior::Node* cur = NULL;
 	void store(std::string name, std::string type);
-	void link();
 	void printTree();
 	void update();
+	void init();
 	Behavior::Node* getRoot() { return root; }
 };
 

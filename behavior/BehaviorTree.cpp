@@ -34,16 +34,17 @@ void BehaviorTree::printTree()
 	printNode(root, 0);
 }
 
-void BehaviorTree::postLoad()
+void BehaviorTree::init()
 {
 	link();
 	cur = root;
-	//navigator.push(root);
+	root->start(navigator);
 }
 
 void BehaviorTree::update()
 {
-	root->start(navigator);
+	if (!navigator.empty())
+		navigator.top()->run(navigator);
 }
 
 Node* BehaviorTree::findNode(std::string name)

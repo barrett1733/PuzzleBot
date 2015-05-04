@@ -17,7 +17,6 @@ namespace Behavior
 	protected:
 		bool result, running;
 		virtual void preRun() {}
-		virtual void run(Navigator&) = 0;
 		virtual void postRun() {}
 	public:
 		Node() {};
@@ -29,6 +28,7 @@ namespace Behavior
 		bool getResult();
 		bool isRunning();
 		void start(Navigator&);
+		virtual void run(Navigator&) = 0;
 		void stop(Navigator&);
 
 		friend std::ostream& operator<<(std::ostream& os, const Node& node)
