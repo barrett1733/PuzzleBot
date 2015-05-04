@@ -1,4 +1,6 @@
 #include "Task.h"
+#include "../pathfinding/pathfinder.h"
+#include "../config/Config.h"
 
 using namespace Task;
 EntityManager* Action::entityManager = NULL;
@@ -12,16 +14,37 @@ void Action::init()
 		target = &entityManager->getEntity(targetName);
 }
 
+void Move::createPath(GridBool &grid)
+{
+	if (path.empty())
+	{
+		Position start = entity->position;
+		Position goal = target->position;
+		start.round();
+		goal.round();
+		pathfinder = new Pathfinding::Pathfinder(grid.getWidth(), grid.getHeight());
+		path = pathfinder->findPath(start, goal, &grid);
+	}
+}
+
 bool Move::run()
 {
 	init();
 	GridBool &grid = *levelManager->getLevel(0);
-	if (!grid.at(target->position))
+	createPath(grid);
+	// moving - next position reached
+	if (EuclideanDistance(entity->position, nextPos) <= entity->speed)
 	{
-		entity->targetPos = target->position;
-		entity->move();
+		path.erase(path.begin());
 	}
-	if (entity->position == entity->targetPos)
+	// moving - if there are more positions to travel to
+	if (!path.empty())
+	{
+		nextPos = *path.begin();
+		entity->moveTowards(nextPos);
+	}
+	// position reached
+	if (path.empty())
 	{
 		return true;
 	}

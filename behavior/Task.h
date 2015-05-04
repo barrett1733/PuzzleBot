@@ -1,23 +1,29 @@
 #pragma once
-#include"../manager/EntityManager.h"
+#include "../manager/EntityManager.h"
 #include "../manager/LevelManager.h"
+#include "../pathfinding/pathfinder.h"
 
 namespace Task
 {
 	class Action
 	{
 	protected:
-		std::string entityName, targetName;
 		Entity *entity, *target;
 	public:
+		std::string entityName, targetName;
 		static EntityManager* entityManager;
 		static LevelManager* levelManager;
 		void init();
-		virtual bool run() { return 0; }
+		virtual bool run() = 0;
 	};
 
 	class Move : public Action
 	{
+		Path path;
+		Position nextPos;
+		Pathfinding::Pathfinder* pathfinder;
+		void createPath(GridBool&);
+	public:
 		bool run();
 	};
 
