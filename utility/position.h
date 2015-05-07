@@ -42,6 +42,7 @@ public:
 	Position getNeighbor(Direction);
 	Direction getDirection(Position);
 	void round();
+	Position getRoundedPosition();
 
 	friend bool operator==(const Position& a, const Position& b)
 	{

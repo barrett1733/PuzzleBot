@@ -83,3 +83,8 @@ void Position::round()
 	x = std::round(x);
 	y = std::round(y);
 }
+
+Position Position::getRoundedPosition()
+{
+	return Position(std::round(x), std::round(y));
+}
