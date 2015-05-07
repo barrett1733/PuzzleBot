@@ -85,15 +85,15 @@ void BehaviorTree::store(std::string name, std::string data)
 		tree.push_back(newNode);
 		if (data == "move")
 			newNode->action = new Task::Move();
-		else if (data == "objectpush")
+		else if (data == "push")
 			newNode->action = new Task::Push();
-		else if (data == "objectpull")
+		else if (data == "pull")
 			newNode->action = new Task::Pull();
-		else if (data == "objectpickup")
+		else if (data == "pickup")
 			newNode->action = new Task::Pickup();
-		else if (data == "objectdrop")
+		else if (data == "drop")
 			newNode->action = new Task::Drop();
-		else if (data == "objecttrigger")
+		else if (data == "trigger")
 			newNode->action = new Task::Trigger();
 	}
 	else if (name == "decorator")
@@ -133,13 +133,16 @@ void BehaviorTree::store(std::string name, std::string data)
 		{
 			parentChildMap.push_back(StringPair(newNode->name, data));
 		}
-		else if (name == "entity")
+		if (newNode->action != NULL)
 		{
-			newNode->action->entityName = data;
-		}
-		else if (name == "target")
-		{
-			newNode->action->targetName = data;
+			if (name == "entity")
+			{
+				newNode->action->entityName = data;
+			}
+			else if (name == "target")
+			{
+				newNode->action->targetName = data;
+			}
 		}
 	}
 }
