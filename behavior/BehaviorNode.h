@@ -19,7 +19,7 @@ namespace Behavior
 		virtual void preRun() {}
 		virtual void postRun() {}
 	public:
-		Node() {};
+		Node():action(NULL) {};
 		Task::Action* action;
 		virtual void addChild(Node& node) = 0;
 		virtual Node& getChild(int) = 0;
