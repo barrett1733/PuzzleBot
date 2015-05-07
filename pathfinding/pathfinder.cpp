@@ -43,7 +43,7 @@ Path Pathfinder::findPath(Position start, Position goal, GridBool* obsMap)
 		curNode = searchList.pop();
 
 		// this is questionable
-		if (curNode->fcost < closestToGoalNode->fcost)
+		if (curNode->hcost < closestToGoalNode->hcost)
 			closestToGoalNode = curNode;
 
 		if (curNode->pos == goal)

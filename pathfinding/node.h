@@ -9,17 +9,19 @@ namespace Pathfinding
 	public:
 		Position pos;
 		Node* parentNode;
-		double gcost, fcost;
+		double gcost, hcost, fcost;
 		Node() :
 			pos(Position(0, 0)),
 			parentNode(NULL),
 			gcost(0),
+			hcost(0),
 			fcost(0)
 		{}
 		Node(Position pos, Node* parent, double g, double h) :
 			pos(pos),
 			parentNode(parent),
 			gcost(g),
+			hcost(h),
 			fcost(g + h)
 		{}
 		void set(Position pos_, Node* par, double g, double h)
@@ -27,6 +29,7 @@ namespace Pathfinding
 			pos = pos_;
 			parentNode = par;
 			gcost = g;
+			hcost = h;
 			fcost = g + h;
 		}
 		bool operator== (Node &a) const
@@ -34,6 +37,7 @@ namespace Pathfinding
 			return (pos == a.pos &&
 				parentNode == a.parentNode &&
 				gcost == a.gcost &&
+				hcost == a.hcost &&
 				fcost == a.fcost);
 		}
 		Node& operator= (Node& a)
@@ -41,6 +45,7 @@ namespace Pathfinding
 			pos = a.pos;
 			parentNode = a.parentNode;
 			gcost = a.gcost;
+			hcost = a.hcost;
 			fcost = a.fcost;
 			return *this;
 		}

@@ -42,7 +42,7 @@ namespace Pathfinding
 			size_x(x), size_y(y),
 			searchLimiter(false),
 			indexGrid(x, y),
-			searchMax((x * y) / 8)
+			searchMax((x * y))
 		{};
 		Pathfinder(int x, int y, bool limitSearch, int numOfNodesToSearch) :
 			size_x(x), size_y(y),
