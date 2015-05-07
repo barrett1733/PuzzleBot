@@ -19,18 +19,10 @@ namespace Pathfinding
 		int size_x, size_y;
 
 		SearchGrid indexGrid;
-		bool goalReached;
-		NodeRef curNode;
-		Position neighborPos;
-
-		// A* Modified variables
-		bool searchLimiter;
 		NodeList searchList;
-		int searchMax, searchCounter;
-		NodeRef closestToGoalNode;
-
-		// A* variables
-		NodeList openList, closedList;
+		bool goalReached;
+		NodeRef curNode, closestToGoalNode;
+		Position neighborPos;
 
 		double pathCost(Position a, Position b);
 		double heursticCost(Position a, Position b);
@@ -40,15 +32,7 @@ namespace Pathfinding
 	public:
 		Pathfinder(int x, int y) :
 			size_x(x), size_y(y),
-			searchLimiter(false),
-			indexGrid(x, y),
-			searchMax((x * y))
-		{};
-		Pathfinder(int x, int y, bool limitSearch, int numOfNodesToSearch) :
-			size_x(x), size_y(y),
-			searchLimiter(limitSearch),
-			indexGrid(x, y),
-			searchMax(numOfNodesToSearch)
+			indexGrid(x, y)
 		{};
 		void init(int x, int y);
 		Path findPath(Position start, Position goal, GridBool* obstructionMap);

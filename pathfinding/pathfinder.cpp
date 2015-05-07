@@ -16,15 +16,12 @@ void Pathfinder::init(int x, int y)
 {
 	size_x = x; 
 	size_y = y;
-	searchLimiter = false;
 	indexGrid.init(x, y);
-	searchMax= (x * y) / 8;
 }
 
 Path Pathfinder::findPath(Position start, Position goal, GridBool* obsMap)
 {
 	goalReached = false;
-	searchCounter = 0;
 
 	indexGrid.add(Node(start, NULL, 0, heursticCost(neighborPos, goal)));
 
@@ -33,10 +30,8 @@ Path Pathfinder::findPath(Position start, Position goal, GridBool* obsMap)
 	closestToGoalNode = &indexGrid.get(start);
 	curNode = NULL;
 
-	while (!goalReached && (!searchLimiter || searchCounter <= searchMax))
+	while (!goalReached)
 	{
-		searchCounter++;
-
 		if (searchList.empty())
 			return constructPath(closestToGoalNode, obsMap->getWidth(), obsMap->getHeight());
 
