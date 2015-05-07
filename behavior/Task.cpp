@@ -6,32 +6,27 @@ using namespace Task;
 EntityManager* Action::entityManager = NULL;
 LevelManager* Action::levelManager = NULL;
 
-void Action::init()
+void Action::loadObjects()
 {
 	if (entityName != "")
 		entity = &entityManager->getEntity(entityName);
 	if (targetName != "")
 		target = &entityManager->getEntity(targetName);
+	//grid = levelManager->getLevel(0);
+	grid = levelManager->getObsMap();
 }
 
-void Move::createPath(GridBool &grid)
+void Move::preRun()
 {
-	if (path.empty())
-	{
-		Position start = entity->position;
-		Position goal = target->position;
-		start.round();
-		goal.round();
-		pathfinder = new Pathfinding::Pathfinder(grid.getWidth(), grid.getHeight());
-		path = pathfinder->findPath(start, goal, &grid);
-	}
+	loadObjects();
+	entity->position.round();
+	target->position.round();
+	pathfinder = new Pathfinding::Pathfinder(grid->getWidth(), grid->getHeight());
+	path = pathfinder->findPath(entity->position, target->position, grid);
 }
 
 bool Move::run()
 {
-	init();
-	GridBool &grid = *levelManager->getLevel(0);
-	createPath(grid);
 	// moving - next position reached
 	if (EuclideanDistance(entity->position, nextPos) <= entity->speed)
 	{
@@ -46,42 +41,68 @@ bool Move::run()
 	// position reached
 	if (path.empty())
 	{
+		entity->position.round();
+		target->position.round();
+
 		return false;
 	}
 	return true;
+}
+
+void Push::preRun()
+{
+	loadObjects();
+	entity->position.round();
+	target->position.round();
+	entity->target = target->position;
+	target->target = target->position.getNeighbor(entity->position.getDirection(entity->target));
 }
 
 bool Push::run()
 {
-	init();
-	Direction dir = entity->position.getDirection(target->position);
-	GridBool &grid = *levelManager->getLevel(0);
-	if (!grid.at(target->position.getNeighbor(dir)))
+	//some kind of rounding issue or something here
+	float distEntity = EuclideanDistance(entity->position, entity->target);
+	float distTarget = EuclideanDistance(target->position, target->target);
+
+	entity->move();
+	target->move();
+
+	if (distEntity <= entity->speed && distTarget <= target->speed)
 	{
-		target->targetPos = target->position.getNeighbor(dir);
-		entity->targetPos = target->position;
-		entity->move();
-		target->move();
-	}
-	else if (entity->position == entity->targetPos && target->position == target->targetPos)
+		entity->position.round();
+		target->position.round();
+
 		return false;
+	}
 	return true;
+}
+
+void Pull::preRun()
+{
+	loadObjects();
+	entity->position.round();
+	target->position.round();
+	target->target = entity->position;
+	Direction dir = target->position.getDirection(target->target);
+	entity->target = entity->position.getNeighbor(dir);
 }
 
 bool Pull::run()
 {
-	init();
-	Direction dir = entity->position.getDirection(entity->position);
-	GridBool &grid = *levelManager->getLevel(0);
-	if (!grid.at(entity->position.getNeighbor(dir)))
+	//some kind of rounding issue or something here
+	float distEntity = EuclideanDistance(entity->position, entity->target);
+	float distTarget = EuclideanDistance(target->position, target->target);
+
+	entity->move();
+	target->move();
+
+	if (distEntity <= entity->speed && distTarget <= target->speed)
 	{
-		entity->targetPos = entity->position.getNeighbor(dir);
-		entity->targetPos = entity->position;
-		entity->move();
-		entity->move();
-	}
-	else if (entity->position == entity->targetPos && entity->position == entity->targetPos)
+		entity->position.round();
+		target->position.round();
+
 		return false;
+	}
 	return true;
 }
 

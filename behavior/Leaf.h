@@ -5,6 +5,7 @@
 class Leaf :
 	public Behavior::Node
 {
+	void preRun();
 	void run(Navigator&);
 public:
 	void addChild(Node& node);

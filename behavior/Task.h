@@ -9,11 +9,13 @@ namespace Task
 	{
 	protected:
 		Entity *entity, *target;
+		GridBool *grid;
+		void loadObjects();
 	public:
 		std::string entityName, targetName;
 		static EntityManager* entityManager;
 		static LevelManager* levelManager;
-		void init();
+		virtual void preRun() {};
 		virtual bool run() = 0;
 	};
 
@@ -22,18 +24,22 @@ namespace Task
 		Path path;
 		Position nextPos;
 		Pathfinding::Pathfinder* pathfinder;
-		void createPath(GridBool&);
 	public:
+		void preRun();
 		bool run();
 	};
 
 	class Push : public Action
 	{
+	public:
+		void preRun();
 		bool run();
 	};
 
 	class Pull : public Action
 	{
+	public:
+		void preRun();
 		bool run();
 	};
 
