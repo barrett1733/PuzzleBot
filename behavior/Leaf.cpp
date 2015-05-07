@@ -2,6 +2,13 @@
 #include <iostream>
 
 using namespace Behavior;
+
+Leaf::~Leaf()
+{
+	delete action;
+	action = NULL;
+}
+
 void Leaf::addChild(Node& node)
 {
 }

@@ -8,6 +8,7 @@ class Leaf :
 	void preRun();
 	void run(Navigator&);
 public:
+	~Leaf();
 	void addChild(Node& node);
 	Node& getChild(int);
 	int getChildCount();
