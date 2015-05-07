@@ -1,6 +1,15 @@
 #include "ScreenManager.h"
 #include "../config/Config.h"
 
+ScreenManager::~ScreenManager()
+{
+	for (sfEntityMapIter iter = sfEntities.begin(); iter != sfEntities.end(); iter++)
+	{
+		delete (*iter).second.shape;
+		(*iter).second.shape = NULL;
+	}
+}
+
 void ScreenManager::init()
 {
 	gridDisplay = getDefaultView();
@@ -54,15 +63,17 @@ void ScreenManager::eventUpdate(sf::Event& event)
 void ScreenManager::render()
 {
 	grid.setGrid(levelManager->getLevel(0));
+	setView(controlDisplay);
+	draw(pauseButton);
+	draw(inventoryBox);
+
 	setView(gridDisplay);
 	draw(grid);
 	for (sfEntityMapIter iter = sfEntities.begin(); iter != sfEntities.end(); iter++)
 	{
-		draw(*(*iter).second);
+		if ((*iter).second.visible)
+			draw(*(*iter).second.shape);
 	}
-	setView(controlDisplay);
-	draw(pauseButton);
-	draw(inventoryBox);
 }
 
 void ScreenManager::update()
@@ -70,21 +81,25 @@ void ScreenManager::update()
 	for (sfEntityMapIter iter = sfEntities.begin(); iter != sfEntities.end(); iter++)
 	{
 		Position entityPos = convertPosition(entityManager->getEntity((*iter).first).position);
-		(*iter).second->setPosition(entityPos.x, entityPos.y);
+		(*iter).second.shape->setPosition(entityPos.x, entityPos.y);
 
-		sf::Shape* object = (*iter).second;
+		sf::Shape* object = (*iter).second.shape;
 		object->setScale(grid.getSize().x / Config::LEVELSIZE / 100, grid.getSize().y / Config::LEVELSIZE / 100);
+	}
+	if (entityManager->heldItem != "")
+	{
+		sfEntities[entityManager->heldItem].shape->setPosition(Config::inventoryboxPos);
 	}
 }
 
 sf::Shape& ScreenManager::getsfEntity(std::string name)
 {
-	return *sfEntities[name];
+	return *sfEntities[name].shape;
 }
 
 void ScreenManager::addsfEntity(std::string name, sf::Shape* sfEntity)
 {
-	sfEntities[name] = sfEntity;
+	sfEntities[name].shape = sfEntity;
 }
 
 void ScreenManager::store(std::string name, std::string data)
@@ -97,26 +112,26 @@ void ScreenManager::store(std::string name, std::string data)
 	{
 		if (data == "circle")
 		{
-			sfEntities[sfEntityName] = new sf::CircleShape(50);
+			sfEntities[sfEntityName].shape = new sf::CircleShape(50);
 		}
 		else if (data == "square")
-			sfEntities[sfEntityName] = new sf::RectangleShape(sf::Vector2f(100,100));
+			sfEntities[sfEntityName].shape = new sf::RectangleShape(sf::Vector2f(100,100));
 	}
 	else if (name == "color")
 	{
 		if (data == "green")
-			sfEntities[sfEntityName]->setFillColor(sf::Color::Green);
+			sfEntities[sfEntityName].shape->setFillColor(sf::Color::Green);
 		else if (data == "red")
-			sfEntities[sfEntityName]->setFillColor(sf::Color::Red);
+			sfEntities[sfEntityName].shape->setFillColor(sf::Color::Red);
 		else if (data == "yellow")
-			sfEntities[sfEntityName]->setFillColor(sf::Color::Yellow);
+			sfEntities[sfEntityName].shape->setFillColor(sf::Color::Yellow);
 		else if (data == "blue")
-			sfEntities[sfEntityName]->setFillColor(sf::Color::Blue);
+			sfEntities[sfEntityName].shape->setFillColor(sf::Color::Blue);
 		else if (data == "magenta")
-			sfEntities[sfEntityName]->setFillColor(sf::Color::Magenta);
+			sfEntities[sfEntityName].shape->setFillColor(sf::Color::Magenta);
 	}
 	else if (name == "outlinethickness")
 	{
-		sfEntities[sfEntityName]->setOutlineThickness(atof(data.c_str()));
+		sfEntities[sfEntityName].shape->setOutlineThickness(atof(data.c_str()));
 	}
 }

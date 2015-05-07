@@ -7,13 +7,20 @@
 
 class ScreenManager : public sf::RenderTexture, public LoadFile
 {
-	typedef std::map<std::string, sf::Shape*> sfEntityMap;
-	typedef std::map<std::string, sf::Shape*>::iterator sfEntityMapIter;
+	struct sfEntity
+	{
+		sf::Shape* shape;
+		bool visible = true;
+		//sf::Sprite sprite;
+	};
+	typedef std::map<std::string, sfEntity> sfEntityMap;
+	typedef std::map<std::string, sfEntity>::iterator sfEntityMapIter;
 	sfEntityMap sfEntities;
 	std::string sfEntityName;
 	sf::View gridDisplay, controlDisplay;
 	Position convertPosition(Position);
 public:
+	~ScreenManager();
 	EntityManager* entityManager;
 	LevelManager* levelManager;
 	DisplayGrid grid;
