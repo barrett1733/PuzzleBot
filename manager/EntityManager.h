@@ -12,6 +12,8 @@ class EntityManager : public LoadFile, public AdditionalParsing
 	EntityMap entities;
 
 public:
+	EntityManager() : heldItem("") {}
+	std::string heldItem;
 	Entity& getEntity(std::string name);
 	std::vector<Position> blockedPositions();
 	void addEntity(std::string name, Entity entity);
