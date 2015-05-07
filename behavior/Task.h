@@ -45,16 +45,22 @@ namespace Task
 
 	class Pickup : public Action
 	{
+	public:
+		void preRun();
 		bool run();
 	};
 
 	class Drop : public Action
 	{
+	public:
+		void preRun();
 		bool run();
 	};
 
 	class Trigger : public Action
 	{
+	public:
+		void preRun();
 		bool run();
 	};
 }

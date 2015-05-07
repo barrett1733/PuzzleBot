@@ -106,17 +106,35 @@ bool Pull::run()
 	return true;
 }
 
+void Pickup::preRun()
+{
+	loadObjects();
+}
+
 bool Pickup::run()
 {
+	entityManager->heldItem = targetName;
 	return false;
+}
+
+void Drop::preRun()
+{
+	loadObjects();
 }
 
 bool Drop::run()
 {
+	target->position = entity->position;
+	entityManager->heldItem = "";
 	return false;
+}
+
+void Trigger::preRun()
+{
+	loadObjects();
 }
 
 bool Trigger::run()
 {
-	return false;
+	return true;
 }
