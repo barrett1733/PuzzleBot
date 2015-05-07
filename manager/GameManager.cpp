@@ -20,8 +20,8 @@ Position GameManager::convScreenPos(Position pos)
 void GameManager::init()
 {
 	behaviorTree.loadFile("res/behaviortree.txt");
-	//behaviorTree.printTree();
 	behaviorTree.init();
+	//behaviorTree.printTree();
 }
 
 void GameManager::eventUpdate(sf::Event& event)

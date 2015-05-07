@@ -7,13 +7,14 @@
 #include "behavior\BehaviorTree.h"
 #include "config\Config.h"
 
-
 int main()
 {
-	LevelManager levels;
-	levels.loadFile("res/levels.txt");
 	EntityManager entities;
 	entities.loadFile("res/entities.txt");
+
+	LevelManager levels;
+	levels.entityManager = &entities;
+	levels.loadFile("res/levels.txt");
 	
 	Task::Action::entityManager = &entities;
 	Task::Action::levelManager = &levels;
@@ -23,7 +24,7 @@ int main()
 	screen.entityManager = &entities;
 	screen.create(Config::SCREEN_WIDTH, Config::SCREEN_HEIGHT);
 	screen.init();
-	screen.loadFile("res/screen graphics.txt");
+	screen.loadFile("res/entities.txt");
 
 	GameManager game;
 	game.levelManager = &levels;

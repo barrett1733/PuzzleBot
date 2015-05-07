@@ -106,12 +106,14 @@ void ScreenManager::store(std::string name, std::string data)
 	{
 		if (data == "green")
 			sfEntities[sfEntityName]->setFillColor(sf::Color::Green);
-		if (data == "red")
+		else if (data == "red")
 			sfEntities[sfEntityName]->setFillColor(sf::Color::Red);
-		if (data == "yellow")
+		else if (data == "yellow")
 			sfEntities[sfEntityName]->setFillColor(sf::Color::Yellow);
-		if (data == "blue")
+		else if (data == "blue")
 			sfEntities[sfEntityName]->setFillColor(sf::Color::Blue);
+		else if (data == "magenta")
+			sfEntities[sfEntityName]->setFillColor(sf::Color::Magenta);
 	}
 	else if (name == "outlinethickness")
 	{
