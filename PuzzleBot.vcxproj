@@ -85,10 +85,14 @@
     <ClCompile Include="behavior\BehaviorNode.cpp" />
     <ClCompile Include="behavior\BehaviorTree.cpp" />
     <ClCompile Include="behavior\Task.cpp" />
+    <ClCompile Include="behavior\TaskAction.cpp" />
+    <ClCompile Include="behavior\TaskConditional.cpp" />
+    <ClCompile Include="behavior\TaskState.cpp" />
     <ClCompile Include="config\Config.cpp" />
     <ClCompile Include="behavior\Decorator.cpp" />
     <ClCompile Include="display\DisplayControlPanel.cpp" />
     <ClCompile Include="behavior\Leaf.cpp" />
+    <ClCompile Include="load\AdditionalParsing.cpp" />
     <ClCompile Include="manager\EntityManager.cpp" />
     <ClCompile Include="manager\GameManager.cpp" />
     <ClCompile Include="manager\ScreenManager.cpp" />
@@ -112,10 +116,14 @@
     <ClInclude Include="behavior\BehaviorNode.h" />
     <ClInclude Include="behavior\Node.h" />
     <ClInclude Include="behavior\Task.h" />
+    <ClInclude Include="behavior\TaskAction.h" />
+    <ClInclude Include="behavior\TaskConditional.h" />
+    <ClInclude Include="behavior\TaskState.h" />
     <ClInclude Include="config\Config.h" />
     <ClInclude Include="behavior\Decorator.h" />
     <ClInclude Include="display\DisplayControlPanel.h" />
     <ClInclude Include="behavior\Leaf.h" />
+    <ClInclude Include="load\AdditionalParsing.h" />
     <ClInclude Include="manager\EntityManager.h" />
     <ClInclude Include="manager\GameManager.h" />
     <ClInclude Include="manager\ScreenManager.h" />
@@ -136,6 +144,10 @@
     <ClInclude Include="pathfinding\nodelist.h" />
     <ClInclude Include="utility\position.h" />
     <ClInclude Include="utility\timer.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="res\behavior\keys.txt" />
+    <Text Include="res\behavior\switches.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
