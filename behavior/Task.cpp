@@ -6,7 +6,7 @@ using namespace Task;
 EntityManager* Action::entityManager = NULL;
 LevelManager* Action::levelManager = NULL;
 
-void Action::loadObjects()
+void Action::preRun()
 {
 	if (entityName != "")
 		entity = &entityManager->getEntity(entityName);
@@ -14,127 +14,10 @@ void Action::loadObjects()
 		target = &entityManager->getEntity(targetName);
 	//grid = levelManager->getLevel(0);
 	grid = levelManager->getObsMap();
+	init();
 }
 
-void Move::preRun()
+bool Action::getResult()
 {
-	loadObjects();
-	entity->position.round();
-	target->position.round();
-	pathfinder = new Pathfinding::Pathfinder(grid->getWidth(), grid->getHeight());
-	path = pathfinder->findPath(entity->position, target->position, grid);
-}
-
-bool Move::run()
-{
-	// moving - next position reached
-	if (EuclideanDistance(entity->position, nextPos) <= entity->speed)
-	{
-		path.erase(path.begin());
-	}
-	// moving - if there are more positions to travel to
-	if (!path.empty())
-	{
-		nextPos = *path.begin();
-		entity->moveTowards(nextPos);
-	}
-	// position reached
-	if (path.empty())
-	{
-		entity->position.round();
-		target->position.round();
-
-		return false;
-	}
-	return true;
-}
-
-void Push::preRun()
-{
-	loadObjects();
-	entity->position.round();
-	target->position.round();
-	entity->target = target->position;
-	target->target = target->position.getNeighbor(entity->position.getDirection(entity->target));
-}
-
-bool Push::run()
-{
-	//some kind of rounding issue or something here
-	float distEntity = EuclideanDistance(entity->position, entity->target);
-	float distTarget = EuclideanDistance(target->position, target->target);
-
-	entity->move();
-	target->move();
-
-	if (distEntity <= entity->speed && distTarget <= target->speed)
-	{
-		entity->position.round();
-		target->position.round();
-
-		return false;
-	}
-	return true;
-}
-
-void Pull::preRun()
-{
-	loadObjects();
-	entity->position.round();
-	target->position.round();
-	target->target = entity->position;
-	Direction dir = target->position.getDirection(target->target);
-	entity->target = entity->position.getNeighbor(dir);
-}
-
-bool Pull::run()
-{
-	//some kind of rounding issue or something here
-	float distEntity = EuclideanDistance(entity->position, entity->target);
-	float distTarget = EuclideanDistance(target->position, target->target);
-
-	entity->move();
-	target->move();
-
-	if (distEntity <= entity->speed && distTarget <= target->speed)
-	{
-		entity->position.round();
-		target->position.round();
-
-		return false;
-	}
-	return true;
-}
-
-void Pickup::preRun()
-{
-	loadObjects();
-}
-
-bool Pickup::run()
-{
-	entityManager->heldItem = targetName;
-	return false;
-}
-
-void Drop::preRun()
-{
-	loadObjects();
-}
-
-bool Drop::run()
-{
-	target->position = entity->position;
-	entityManager->heldItem = "";
-	return false;
-}
-
-void Trigger::preRun()
-{
-	loadObjects();
-}
-
-bool Trigger::run()
-{
-	return true;
+	return result;
 }

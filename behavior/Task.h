@@ -10,57 +10,14 @@ namespace Task
 	protected:
 		Entity *entity, *target;
 		GridBool *grid;
-		void loadObjects();
+		bool result;
 	public:
 		std::string entityName, targetName;
 		static EntityManager* entityManager;
 		static LevelManager* levelManager;
-		virtual void preRun() {};
+		void preRun();
+		virtual void init() {}
 		virtual bool run() = 0;
-	};
-
-	class Move : public Action
-	{
-		Path path;
-		Position nextPos;
-		Pathfinding::Pathfinder* pathfinder;
-	public:
-		void preRun();
-		bool run();
-	};
-
-	class Push : public Action
-	{
-	public:
-		void preRun();
-		bool run();
-	};
-
-	class Pull : public Action
-	{
-	public:
-		void preRun();
-		bool run();
-	};
-
-	class Pickup : public Action
-	{
-	public:
-		void preRun();
-		bool run();
-	};
-
-	class Drop : public Action
-	{
-	public:
-		void preRun();
-		bool run();
-	};
-
-	class Trigger : public Action
-	{
-	public:
-		void preRun();
-		bool run();
+		bool getResult();
 	};
 }
