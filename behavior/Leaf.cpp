@@ -30,6 +30,9 @@ void Leaf::preRun()
 
 void Leaf::run(Navigator& nav)
 {
-	if(action->run() == false) // if finished running
+	if (action->run() == false) // if finished running
+	{
+		result = action->getResult();
 		stop(nav);
+	}
 }
