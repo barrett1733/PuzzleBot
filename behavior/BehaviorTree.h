@@ -2,9 +2,11 @@
 #include <vector>
 #include "BehaviorNode.h"
 #include "../load/LoadFile.h"
+#include "../manager/EntityManager.h"
 
 class BehaviorTree : public LoadFile
 {
+	std::vector<std::string> commands;
 	Behavior::Node::Navigator navigator;
 	typedef std::pair<std::string, std::string> StringPair;
 	Behavior::Node* root = NULL;
@@ -15,6 +17,7 @@ class BehaviorTree : public LoadFile
 	Behavior::Node* findNode(std::string name);
 	void printNode(Behavior::Node* node, int depth);
 	void link();
+	void parseCommand(Behavior::Node* node, std::string type);
 
 public:
 	BehaviorTree();
