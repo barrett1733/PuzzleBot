@@ -16,7 +16,7 @@ std::vector<Position> EntityManager::blockedPositions()
 	std::vector<Position> obsVec;
 	for (EntityMapIter iter = entities.begin(); iter != entities.end(); iter++)
 	{
-		if ((*iter).second.type == Entity::BARRIER)
+		if ((*iter).second.barrier)
 			obsVec.push_back((*iter).second.position);
 	}
 	return obsVec;
@@ -37,17 +37,18 @@ void EntityManager::store(std::string name, std::string data)
 	{
 		entities[entityName].speed = atof(data.c_str()) / 100;
 	}
-	else if (name == "type")
+	else if (name == "barrier")
 	{
-		if (data == "wall")
-			entities[entityName].type = Entity::WALL;
-		else if (data == "trigger")
-			entities[entityName].type = Entity::TRIGGER;
-		else if (data == "item")
-			entities[entityName].type = Entity::ITEM;
-		else if (data == "barrier")
-			entities[entityName].type = Entity::BARRIER;
+		if (data == "true")
+			entities[entityName].barrier = true;
 		else
-			entities[entityName].type = Entity::NONE;
+			entities[entityName].barrier = false;
+	}
+	else if (name == "visible")
+	{
+		if (data == "true")
+			entities[entityName].visible = true;
+		else
+			entities[entityName].visible = false;
 	}
 }
