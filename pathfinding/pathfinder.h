@@ -35,6 +35,7 @@ namespace Pathfinding
 			indexGrid(x, y)
 		{};
 		void init(int x, int y);
+		bool pathExists(Position start, Position goal, GridBool* obstructionMap);
 		Path findPath(Position start, Position goal, GridBool* obstructionMap);
 		Position findNextPosition(Position start, Position goal, GridBool* obstructionMap);
 	};

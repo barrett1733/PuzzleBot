@@ -19,6 +19,58 @@ void Pathfinder::init(int x, int y)
 	indexGrid.init(x, y);
 }
 
+bool Pathfinder::pathExists(Position start, Position goal, GridBool* obsMap)
+{
+	goalReached = false;
+
+	indexGrid.add(Node(start, NULL, 0, heursticCost(neighborPos, goal)));
+
+	searchList.push(&indexGrid.get(start));
+
+	curNode = NULL;
+
+	while (!goalReached)
+	{
+		if (searchList.empty())
+			return false;
+
+		curNode = searchList.pop();
+
+		if (curNode->pos == goal)
+		{
+			goalReached = true;
+		}
+		else
+		{
+			for (Direction dir = D_NORTH; dir < D_NORTH_EAST; dir++)
+			{
+				neighborPos = curNode->pos;
+				neighborPos.move(dir);
+				if (neighborPos.checkSanity(obsMap->getWidth(), obsMap->getHeight()) && obsMap->at(neighborPos) == false)
+				{
+					if (indexGrid.checkExists(neighborPos))
+					{
+						if (curNode->gcost < indexGrid.get(neighborPos).gcost)
+						{
+							indexGrid.add(Node(neighborPos, curNode, curNode->gcost, heursticCost(neighborPos, goal)));
+						}
+					}
+					else
+					{
+						double travelCost = pathCost(curNode->pos, neighborPos);
+						double newgcost = curNode->gcost + travelCost;
+						double hcost = heursticCost(neighborPos, goal);
+
+						indexGrid.add(Node(neighborPos, curNode, newgcost, hcost));
+						searchList.push(&indexGrid.get(neighborPos));
+					}
+				}
+			}
+		}
+	}
+	return true;
+}
+
 Path Pathfinder::findPath(Position start, Position goal, GridBool* obsMap)
 {
 	goalReached = false;
