@@ -14,8 +14,10 @@ class ScreenManager : public sf::RenderTexture, public LoadFile
 		//sf::Sprite sprite;
 	};
 	typedef std::map<std::string, sfEntity> sfEntityMap;
-	typedef std::map<std::string, sfEntity>::iterator sfEntityMapIter;
-	sfEntityMap sfEntities;
+	typedef std::pair<std::string, sfEntity*> sfEntityPair;
+	typedef std::vector<sfEntityPair> sfEntityVec;
+	sfEntityMap sfEntityIdMap;
+	sfEntityVec sfEntities;
 	std::string sfEntityName;
 	sf::View gridDisplay, controlDisplay;
 	Position convertPosition(Position);

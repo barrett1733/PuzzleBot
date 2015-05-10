@@ -3,10 +3,10 @@
 
 ScreenManager::~ScreenManager()
 {
-	for (sfEntityMapIter iter = sfEntities.begin(); iter != sfEntities.end(); iter++)
+	for (int i = 0; i < sfEntities.size(); i++)
 	{
-		delete (*iter).second.shape;
-		(*iter).second.shape = NULL;
+		delete sfEntities[i].second->shape;
+		sfEntities[i].second->shape = NULL;
 	}
 }
 
@@ -69,37 +69,38 @@ void ScreenManager::render()
 
 	setView(gridDisplay);
 	draw(grid);
-	for (sfEntityMapIter iter = sfEntities.begin(); iter != sfEntities.end(); iter++)
+	for (int i = sfEntities.size() - 1; i >= 0; i--)
 	{
-		if ((*iter).second.visible)
-			draw(*(*iter).second.shape);
+		if (sfEntities[i].second->visible)
+			draw(*sfEntities[i].second->shape);
 	}
 }
 
 void ScreenManager::update()
 {
-	for (sfEntityMapIter iter = sfEntities.begin(); iter != sfEntities.end(); iter++)
+	for (int i = 0; i < sfEntities.size(); i++)
 	{
-		Position entityPos = convertPosition(entityManager->getEntity((*iter).first).position);
-		(*iter).second.shape->setPosition(entityPos.x, entityPos.y);
+		Position entityPos = convertPosition(entityManager->getEntity(sfEntities[i].first).position);
+		sfEntities[i].second->shape->setPosition(entityPos.x, entityPos.y);
+		sfEntities[i].second->visible = entityManager->getEntity(sfEntities[i].first).visible;
 
-		sf::Shape* object = (*iter).second.shape;
+		sf::Shape* object = sfEntities[i].second->shape;
 		object->setScale(grid.getSize().x / Config::LEVELSIZE / 100, grid.getSize().y / Config::LEVELSIZE / 100);
 	}
 	if (entityManager->heldItem != "")
 	{
-		sfEntities[entityManager->heldItem].shape->setPosition(Config::inventoryboxPos);
+		sfEntityIdMap[entityManager->heldItem].shape->setPosition(Config::inventoryboxPos);
 	}
 }
 
 sf::Shape& ScreenManager::getsfEntity(std::string name)
 {
-	return *sfEntities[name].shape;
+	return *sfEntityIdMap[name].shape;
 }
 
 void ScreenManager::addsfEntity(std::string name, sf::Shape* sfEntity)
 {
-	sfEntities[name].shape = sfEntity;
+	sfEntityIdMap[name].shape = sfEntity;
 }
 
 void ScreenManager::store(std::string name, std::string data)
@@ -112,26 +113,36 @@ void ScreenManager::store(std::string name, std::string data)
 	{
 		if (data == "circle")
 		{
-			sfEntities[sfEntityName].shape = new sf::CircleShape(50);
+			sfEntityIdMap[sfEntityName].shape = new sf::CircleShape(50);
+			sfEntities.push_back(sfEntityPair(sfEntityName, &sfEntityIdMap[sfEntityName]));
 		}
 		else if (data == "square")
-			sfEntities[sfEntityName].shape = new sf::RectangleShape(sf::Vector2f(100,100));
+		{
+			sfEntityIdMap[sfEntityName].shape = new sf::RectangleShape(sf::Vector2f(100, 100));
+			sfEntities.push_back(sfEntityPair(sfEntityName, &sfEntityIdMap[sfEntityName]));
+		}
 	}
 	else if (name == "color")
 	{
 		if (data == "green")
-			sfEntities[sfEntityName].shape->setFillColor(sf::Color::Green);
+			sfEntityIdMap[sfEntityName].shape->setFillColor(sf::Color::Green);
 		else if (data == "red")
-			sfEntities[sfEntityName].shape->setFillColor(sf::Color::Red);
+			sfEntityIdMap[sfEntityName].shape->setFillColor(sf::Color::Red);
 		else if (data == "yellow")
-			sfEntities[sfEntityName].shape->setFillColor(sf::Color::Yellow);
+			sfEntityIdMap[sfEntityName].shape->setFillColor(sf::Color::Yellow);
 		else if (data == "blue")
-			sfEntities[sfEntityName].shape->setFillColor(sf::Color::Blue);
+			sfEntityIdMap[sfEntityName].shape->setFillColor(sf::Color::Blue);
 		else if (data == "magenta")
-			sfEntities[sfEntityName].shape->setFillColor(sf::Color::Magenta);
+			sfEntityIdMap[sfEntityName].shape->setFillColor(sf::Color::Magenta);
+		else if (data == "black")
+			sfEntityIdMap[sfEntityName].shape->setFillColor(sf::Color::Black);
+		else if (data == "white")
+			sfEntityIdMap[sfEntityName].shape->setFillColor(sf::Color::White);
+		else if (data == "cyan")
+			sfEntityIdMap[sfEntityName].shape->setFillColor(sf::Color::Cyan);
 	}
 	else if (name == "outlinethickness")
 	{
-		sfEntities[sfEntityName].shape->setOutlineThickness(atof(data.c_str()));
+		sfEntityIdMap[sfEntityName].shape->setOutlineThickness(atof(data.c_str()));
 	}
 }
