@@ -3,17 +3,10 @@
 
 class Entity 
 {
-	enum EntityType
-	{
-		NONE,
-		DOOR,
-		SWITCH,
-		ITEM,
-		BOX
-	};
 public:
-	Position position, targetPos;
+	Position position;
 	float speed;
+	bool barrier, visible;
 
 	Entity(Position position, float speed);
 	Entity(const Entity&);
@@ -21,8 +14,9 @@ public:
 
 	Entity& operator= (const Entity&);
 
-	void move();
+	void moveTowards(Position, float);
 	void moveTowards(Position);
+	void moveTowards(Direction, float);
 	void moveTowards(Direction);
 
 	friend std::ostream& operator<< (std::ostream & os, const Entity & entity)
