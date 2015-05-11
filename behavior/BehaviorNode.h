@@ -33,7 +33,7 @@ namespace Behavior
 
 		friend std::ostream& operator<<(std::ostream& os, const Node& node)
 		{
-			os << node.name << std::endl;
+			os << node.name;
 			return os;
 		}
 	};
