@@ -72,9 +72,9 @@ Direction Position::getDirection(Position pos)
 	if (x > pos.x)
 		dir += D_LEFT;
 	if (y < pos.y)
-		dir += D_UP;
-	if (y > pos.y)
 		dir += D_DOWN;
+	if (y > pos.y)
+		dir += D_UP;
 	return dir;
 }
 
