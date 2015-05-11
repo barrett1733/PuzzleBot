@@ -17,6 +17,7 @@ BehaviorTree::BehaviorTree()
 		"pickup",
 		"drop",
 		"isatlocation",
+		"canmoveto",
 		"checkbarrier",
 		"checkvisible",
 		"barrieron",
@@ -135,6 +136,8 @@ void BehaviorTree::parseCommand(Node* newNode, std::string str)
 		newNode->action = new Task::CheckBarrier();
 	else if (command == "checkvisible")
 		newNode->action = new Task::CheckVisible();
+	else if (command == "canmoveto")
+		newNode->action = new Task::CanMoveTo();
 	else if (command == "barrieron")
 		newNode->action = new Task::BarrierOn();
 	else if (command == "barrieroff")
@@ -194,16 +197,5 @@ void BehaviorTree::store(std::string name, std::string data)
 		{
 			parentChildMap.push_back(StringPair(newNode->name, data));
 		}
-		/*if (newNode->action != NULL)
-		{
-			if (name == "entity")
-			{
-				newNode->action->entityName = data;
-			}
-			else if (name == "target")
-			{
-				newNode->action->targetName = data;
-			}
-		}*/
 	}
 }
