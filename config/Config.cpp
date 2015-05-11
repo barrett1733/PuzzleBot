@@ -3,5 +3,5 @@
 namespace Config
 {
 	int LEVELSIZE = 10;
-	bool gamePause = false;
+	bool gamePause = true;
 }

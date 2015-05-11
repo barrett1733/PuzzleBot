@@ -36,6 +36,8 @@ int main()
 	steady_clock::time_point prev = steady_clock::now();
 	steady_clock::duration lag = steady_clock::duration::zero();
 
+	screen.update(); // needs one screen update to set all positions
+
 	while (window.isOpen())
 	{
 		steady_clock::time_point cur = steady_clock::now();
