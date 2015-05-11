@@ -1,27 +1,76 @@
 name = robot
 position = 0,0
-speed = 1
+speed = 3
 shape = circle
 color = green
 
-name = key
-position = 5,4
-speed = 0
-shape = circle
-#scale x = 0.5
-#scale y = 0.5
-color = yellow
-type = item
+#name = box
+#position = 6,9
+#shape = square
+#color = magenta
+#barrier = true
 
-name = box
-position = 2,4
-speed = 1
+name = key1
+position = 3,4
+shape = circle
+color = yellow
+
+name = key2
+position = 8,8
+shape = circle
+color = yellow
+
+name = key3
+position = 0,7
+shape = circle
+color = yellow
+
+name = key4
+position = 9,3
+shape = circle
+color = yellow
+
+name = switch1
+position = 2,0
+shape = circle
+color = red
+
+name = switch2
+position = 5,6
+shape = circle
+color = red
+
+name = switch3
+position = 4,0
+shape = circle
+color = red
+
+name = switch4
+position = 9,5
+shape = circle
+color = red
+
+
+name = door1
+position = 6,9
 shape = square
-color = magenta
-type = barrier
+color = cyan
+barrier = true
+
+name = door2
+position = 2,6
+shape = square
+color = cyan
+barrier = true
+
+name = door3
+position = 5,3
+shape = square
+color = cyan
+barrier = true
 
 name = exit
-position = 9,4
-speed = 0
+position = 9,0
 shape = square
 color = red
+barrier = true

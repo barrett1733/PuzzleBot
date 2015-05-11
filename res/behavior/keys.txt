@@ -1,0 +1,21 @@
+
+
+leaf = robot move to key1
+leaf = robot move to key2
+leaf = robot move to key3
+leaf = robot move to key4
+
+leaf = robot can move to key1
+leaf = robot can move to key2
+leaf = robot can move to key3
+leaf = robot can move to key4
+
+leaf = robot pickup key1
+leaf = robot pickup key2
+leaf = robot pickup key3
+leaf = robot pickup key4
+
+leaf = robot drop key1
+leaf = robot drop key2
+leaf = robot drop key3
+leaf = robot drop key4

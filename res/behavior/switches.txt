@@ -1,0 +1,16 @@
+
+
+leaf = robot move to switch1
+leaf = robot move to switch2
+leaf = robot move to switch3
+leaf = robot move to switch4
+
+leaf = robot can move to switch1
+leaf = robot can move to switch2
+leaf = robot can move to switch3
+leaf = robot can move to switch4
+
+leaf = key1 is at location switch1
+leaf = key2 is at location switch2
+leaf = key3 is at location switch3
+leaf = key4 is at location switch4

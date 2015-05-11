@@ -1,14 +1,100 @@
+#composite = sequence - continue until child succeeds
+			 selector - finish when child fails
+
+#decorator = invert, repeat, until fail, until success, always fail, always succeed
+
+#leaf = move to, push, pull, pickup, drop,
+#		is at location, check barrier, check visible, can move to
+#		barrier on, barrier off, visible on, visible off
+
+
+file = res/behavior/keys.txt
+file = res/behavior/switches.txt
+file = res/behavior/doors.txt
+file = res/behavior/boxes.txt
+
 composite = sequence
-name = goal
-child = walktokey
-child = walktoexit
+name = main sequence
+child = open door 1
+child = open door 2
+child = open door 3
+child = activate exit
+child = exit room
 
-leaf = move
-name = walk to key
-entity = robot
-target = key
+composite = sequence
+name = exit room
+child = robot can move to exit
+child = robot move to exit
 
-leaf = move
-name = walk to exit
-entity = robot
-target = exit
+composite = sequence
+name = open door 1
+child = get key1
+child = trigger switch1
+
+composite = sequence
+name = get key1
+child = robot can move to key1
+child = robot move to key1
+child = robot pickup key1
+
+composite = sequence
+name = trigger switch1
+child = robot can move to switch1
+child = robot move to switch1
+child = robot drop key1
+child = door1 barrier off
+
+composite = sequence
+name = open door 2
+child = get key2
+child = trigger switch2
+
+composite = sequence
+name = get key2
+child = robot can move to key2
+child = robot move to key2
+child = robot pickup key2
+
+composite = sequence
+name = trigger switch2
+child = robot can move to switch2
+child = robot move to switch2
+child = robot drop key2
+child = door2 barrier off
+
+composite = sequence
+name = open door 3
+child = get key3
+child = trigger switch3
+
+composite = sequence
+name = get key3
+child = robot can move to key3
+child = robot move to key3
+child = robot pickup key3
+
+composite = sequence
+name = trigger switch3
+child = robot can move to switch3
+child = robot move to switch3
+child = robot drop key3
+child = door3 barrier off
+
+composite = sequence
+name = activate exit
+child = get key4
+child = trigger switch4
+
+composite = sequence
+name = get key4
+child = robot can move to key4
+child = robot move to key4
+child = robot pickup key4
+
+composite = sequence
+name = trigger switch4
+child = robot can move to switch4
+child = robot move to switch4
+child = robot drop key4
+child = exit barrier off
+

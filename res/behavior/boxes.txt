@@ -1,0 +1,10 @@
+
+
+leaf = robot move to box
+leaf = robot can move to box
+leaf = robot push box
+leaf = robot pull box
+
+leaf = robot can move to exit
+leaf = robot move to exit
+leaf = exit barrier off

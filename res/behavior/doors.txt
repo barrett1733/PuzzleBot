@@ -1,0 +1,19 @@
+
+
+
+leaf = door1 barrier on
+leaf = door2 barrier on
+leaf = door3 barrier on
+
+leaf = door1 barrier off
+leaf = door2 barrier off
+leaf = door3 barrier off
+
+leaf = door1 visible on
+leaf = door2 visible on
+leaf = door3 visible on
+
+leaf = door1 visible off
+leaf = door2 visible off
+leaf = door3 visible off
+
