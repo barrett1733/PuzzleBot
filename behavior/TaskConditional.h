@@ -24,7 +24,6 @@ namespace Task
 	{
 		Pathfinding::Pathfinder* pathfinder;
 	public:
-		//void preRun();
 		void init();
 		bool run();
 	};

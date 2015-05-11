@@ -22,16 +22,6 @@ bool CheckVisible::run()
 	return false;
 }
 
-/*void CanMoveTo::preRun()
-{
-	if (entityName != "")
-		entity = &entityManager->getEntity(entityName);
-	if (targetName != "")
-		target = &entityManager->getEntity(targetName);
-	grid = levelManager->getLevel(0);
-	init();
-}*/
-
 void CanMoveTo::init()
 {
 	entity->position.round();
