@@ -10,6 +10,7 @@ class ScreenManager : public sf::RenderTexture, public LoadFile
 	struct sfEntity
 	{
 		sf::Shape* shape;
+		sf::Text text;
 		bool visible = true;
 		//sf::Sprite sprite;
 	};
@@ -19,6 +20,7 @@ class ScreenManager : public sf::RenderTexture, public LoadFile
 	sfEntityMap sfEntityIdMap;
 	sfEntityVec sfEntities;
 	std::string sfEntityName;
+	sf::Font font;
 	sf::View gridDisplay, controlDisplay;
 	Position convertPosition(Position);
 public:
@@ -27,6 +29,7 @@ public:
 	LevelManager* levelManager;
 	DisplayGrid grid;
 	sf::RectangleShape pauseButton, inventoryBox;
+	sf::Text pauseText;
 	void init();
 	void eventUpdate(sf::Event& event);
 	void update();
