@@ -40,24 +40,29 @@ void Push::init()
 	target->position.round();
 	nextEntityPos = target->position;
 	nextTargetPos = target->position.getNeighbor(entity->position.getDirection(nextEntityPos));
+	
 	//entity->target = target->position;
 	//target->target = target->position.getNeighbor(entity->position.getDirection(entity->target));
 }
 
 bool Push::run()
 {
-	entity->moveTowards(nextEntityPos);
-	target->moveTowards(nextTargetPos, entity->speed);
-
-	if (EuclideanDistance(entity->position, nextEntityPos) <= entity->speed)
+	if (grid->at(nextTargetPos) == false)
 	{
-		entity->position.round();
-		target->position.round();
+		entity->moveTowards(nextEntityPos);
+		target->moveTowards(nextTargetPos, entity->speed);
 
-		result = true;
-		return false;
+		if (EuclideanDistance(entity->position, nextEntityPos) <= entity->speed)
+		{
+			entity->position.round();
+			target->position.round();
+
+			result = true;
+			return false;
+		}
+		return true;
 	}
-	return true;
+	return false;
 }
 
 void Pull::init()
@@ -73,17 +78,21 @@ void Pull::init()
 
 bool Pull::run()
 {
-	entity->moveTowards(nextEntityPos);
-	target->moveTowards(nextTargetPos, entity->speed);
-
-	if (EuclideanDistance(entity->position, nextEntityPos) <= entity->speed)
+	if (grid->at(nextEntityPos) == false)
 	{
-		entity->position.round();
-		target->position.round();
-		result = true;
-		return false;
+		entity->moveTowards(nextEntityPos);
+		target->moveTowards(nextTargetPos, entity->speed);
+
+		if (EuclideanDistance(entity->position, nextEntityPos) <= entity->speed)
+		{
+			entity->position.round();
+			target->position.round();
+			result = true;
+			return false;
+		}
+		return true;
 	}
-	return true;
+	return false;
 }
 
 bool Pickup::run()
